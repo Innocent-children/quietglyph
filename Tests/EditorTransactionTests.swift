@@ -4,7 +4,7 @@ import AppKit
 
 final class EditorTransactionTests: XCTestCase {
     @MainActor func testMultilineTabAndUndoPreserveContentAndSelections() throws {
-        let document = NativeTextDocument(); document.initialText = "alpha\r\nbeta"
+        let document = TextDocument(); document.initialText = "alpha\r\nbeta"
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         let settings = SettingsStore.shared.values
         defer { SettingsStore.shared.values = settings; document.close() }
@@ -22,7 +22,7 @@ final class EditorTransactionTests: XCTestCase {
         XCTAssertEqual(editor.textView.string, "    alpha\r\n    beta")
     }
     @MainActor func testMultiCaretKeyboardThenTypingAndWholeDocumentSort() throws {
-        let document = NativeTextDocument(); document.initialText = "abc\nabc"
+        let document = TextDocument(); document.initialText = "abc\nabc"
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         defer { document.close() }
         editor.setSelections([NSRange(location: 1, length: 0), NSRange(location: 5, length: 0)])
@@ -37,7 +37,7 @@ final class EditorTransactionTests: XCTestCase {
         XCTAssertEqual(editor.textView.string, "a\nm\nz")
     }
     @MainActor func testSavingSeparatesTypingUndoGroups() throws {
-        let document = NativeTextDocument(); document.initialText = "original"
+        let document = TextDocument(); document.initialText = "original"
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         let undo = try XCTUnwrap(document.undoManager)
         undo.groupsByEvent = false
@@ -70,8 +70,8 @@ final class EditorTransactionTests: XCTestCase {
         XCTAssertThrowsError(try EditTransaction.applying([TextEdit(range: NSRange(location: 1, length: 1), replacement: "")], to: "🙂"))
         XCTAssertThrowsError(try EditTransaction.applying([TextEdit(range: NSRange(location: 0, length: 2), replacement: ""), TextEdit(range: NSRange(location: 1, length: 1), replacement: "")], to: "abc"))
     }
-    @MainActor func testNativeMultiCaretUndoAndMarkedTextCommit() throws {
-        let document = NativeTextDocument()
+    @MainActor func testMultiCaretUndoAndMarkedTextCommit() throws {
+        let document = TextDocument()
         document.initialText = "a\na"
         let editor = EditorController(document: document)
         document.editor = editor

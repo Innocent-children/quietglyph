@@ -2,8 +2,8 @@ import AppKit
 
 @MainActor
 final class EditorController: NSViewController, NSTextViewDelegate, NSGestureRecognizerDelegate {
-    weak var document: NativeTextDocument?
-    let textView = NativeTextView(usingTextLayoutManager: true)
+    weak var document: TextDocument?
+    let textView = EditorTextView(usingTextLayoutManager: true)
     let scrollView = NSScrollView()
     let selections = SelectionController()
     let bookmarks = BookmarkStore()
@@ -39,7 +39,7 @@ final class EditorController: NSViewController, NSTextViewDelegate, NSGestureRec
     }
     var source: NSString { textView.string as NSString }
 
-    init(document: NativeTextDocument) {
+    init(document: TextDocument) {
         self.document = document
         super.init(nibName: nil, bundle: nil)
     }

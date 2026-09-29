@@ -1,7 +1,7 @@
 import AppKit
 
 @MainActor
-final class NativeApplication: NSApplication {
+final class QuietGlyphNSApplication: NSApplication {
     override func terminate(_ sender: Any?) {
         (delegate as? AppDelegate)?.prepareTermination()
         super.terminate(sender)
@@ -21,7 +21,7 @@ enum QuietGlyphApplication {
             arguments["ApplePersistenceIgnoreState"] = true
             UserDefaults.standard.setVolatileDomain(arguments, forName: UserDefaults.argumentDomain)
         }
-        let application = NativeApplication.shared
+        let application = QuietGlyphNSApplication.shared
         let documents = DocumentController()
         let delegate = AppDelegate(documents: documents)
         application.delegate = delegate

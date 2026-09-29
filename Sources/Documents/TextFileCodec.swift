@@ -5,7 +5,7 @@ struct DecodedText: Sendable {
     var metadata: DocumentMetadata
 }
 
-enum FileCodec {
+enum TextFileCodec {
     static func decode(_ data: Data, preferred: TextEncoding? = nil) throws -> DecodedText {
         var encoding = preferred
         var payload = data

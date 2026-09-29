@@ -1,7 +1,7 @@
 import XCTest
 
 final class AccessibilityUITests: XCTestCase {
-    func testEditorAndNativeNavigationAreExposed() {
+    func testEditorAndSidebarNavigationAreExposed() {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing"]
         app.launch()

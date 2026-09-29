@@ -47,7 +47,7 @@ enum BatchRenameService {
         for indices in groups.values where indices.count > 1 { for index in indices { rows[index].error = L10n.text("Several files have the same target name.") } }
         return rows.sorted { $0.source.path < $1.source.path }
     }
-    @MainActor static func execute(_ item: BatchRenameItem, documents: [NativeTextDocument]) async throws {
+    @MainActor static func execute(_ item: BatchRenameItem, documents: [TextDocument]) async throws {
         guard item.error == nil, let stamp = item.stamp else { throw EditorError.invalidRange }
         guard try DocumentIO.stamp(item.source) == stamp else { throw EditorError.externalChange }
         if item.source == item.destination { return }

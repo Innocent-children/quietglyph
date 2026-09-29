@@ -28,7 +28,7 @@ final class IncrementalHighlighter {
             let previous = self.cachedLanguage == definition.id ? self.cache : []
             self.parsing = Task.detached(priority: .utility) {
                 let text = snapshot as NSString
-                let context = NativeLexer.Context(definition, languages: languages)
+                let context = SyntaxLexer.Context(definition, languages: languages)
                 let ranges = TextRanges.lines(text)
                 var state = LexicalState()
                 var next: [HighlightLine] = []
@@ -39,7 +39,7 @@ final class IncrementalHighlighter {
                     if index < previous.count, previous[index].text == content, previous[index].incoming == state {
                         next.append(previous[index])
                     } else {
-                        let parsed = NativeLexer.line(content, language: definition, incoming: state, context: context)
+                        let parsed = SyntaxLexer.line(content, language: definition, incoming: state, context: context)
                         next.append(parsed); changes.append((range, parsed.tokens))
                     }
                     state = next.last!.outgoing
@@ -61,7 +61,7 @@ final class IncrementalHighlighter {
         revision += 1; work?.cancel(); parsing?.cancel()
         var languages = Dictionary(uniqueKeysWithValues: LanguageRegistry.shared.languages.map { ($0.id, $0) })
         if var php = languages["php"] { php.id = "php-code"; php.embedded = []; languages["php-code"] = php }
-        cache = NativeLexer.parse(view.string, language: language, languages: languages)
+        cache = SyntaxLexer.parse(view.string, language: language, languages: languages)
         cachedText = view.string; cachedLanguage = language.id
         let changes = zip(TextRanges.lines(view.string as NSString), cache).map { ($0.0, $0.1.tokens) }
         applyStyles(changes, storage: storage, language: language.id)

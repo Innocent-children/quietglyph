@@ -3,12 +3,12 @@ import XCTest
 
 final class FormattingTests: XCTestCase {
     func testJSONAndXMLFormattingAndErrors() throws {
-        let json = try FormatService.json("{\"中文\":[1,true]}")
+        let json = try StructuredTextFormatter.json("{\"中文\":[1,true]}")
         XCTAssertTrue(json.contains("中文"))
         XCTAssertNoThrow(try JSONSerialization.jsonObject(with: Data(json.utf8)))
-        XCTAssertTrue(try FormatService.xml("<root><value>你好</value></root>").contains("你好"))
-        XCTAssertThrowsError(try FormatService.json("{broken"))
-        XCTAssertThrowsError(try FormatService.xml("<root>"))
+        XCTAssertTrue(try StructuredTextFormatter.xml("<root><value>你好</value></root>").contains("你好"))
+        XCTAssertThrowsError(try StructuredTextFormatter.json("{broken"))
+        XCTAssertThrowsError(try StructuredTextFormatter.xml("<root>"))
     }
     func testDigestsMatchKnownUTF8Input() {
         let value = ChecksumService.digest(Data("abc".utf8))

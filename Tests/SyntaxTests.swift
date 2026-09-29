@@ -10,7 +10,7 @@ final class SyntaxTests: XCTestCase {
         if var php = languages["php"] { php.embedded = []; languages["php-code"] = php }
         for fixture in fixtures {
             let language = try XCTUnwrap(languages[fixture.language])
-            let parsed = NativeLexer.parse(fixture.source, language: language, languages: languages)
+            let parsed = SyntaxLexer.parse(fixture.source, language: language, languages: languages)
             if !fixture.role.isEmpty { XCTAssertTrue(parsed.flatMap(\.tokens).contains { $0.role.rawValue == fixture.role }, fixture.language) }
             if fixture.multiline { XCTAssertTrue(parsed.contains { !$0.outgoing.delimiter.isEmpty }, fixture.language) }
             XCTAssertEqual(parsed.last?.outgoing.delimiter, "", fixture.language)
@@ -19,7 +19,7 @@ final class SyntaxTests: XCTestCase {
         XCTAssertEqual(Set(fixtures.map(\.language)), Set(languages.keys.filter { $0 != "php-code" }))
     }
     @MainActor func testHeredocEndMustOccupyTheWholeLineAndPythonStringDoesNotEndFold() {
-        let shell = NativeLexer.parse("cat <<EOF\nEOF_text\nEOF\n", language: LanguageRegistry.shared.language("bash"))
+        let shell = SyntaxLexer.parse("cat <<EOF\nEOF_text\nEOF\n", language: LanguageRegistry.shared.language("bash"))
         XCTAssertEqual(shell[1].outgoing.delimiter, "EOF"); XCTAssertEqual(shell[2].outgoing.delimiter, "")
         let python = LanguageRegistry.shared.language("python")
         let source = "def f():\n    text = \"\"\"first\nno indent\n\"\"\"\n    return text\nafter = 1\n"
@@ -30,10 +30,10 @@ final class SyntaxTests: XCTestCase {
         var language = LanguageDefinition.plain
         language.id = "test"; language.keywords = ["let"]; language.lineComment = "//"
         language.blockCommentStart = "/*"; language.blockCommentEnd = "*/"
-        let first = NativeLexer.line("let x = /* comment\n", language: language, incoming: LexicalState())
+        let first = SyntaxLexer.line("let x = /* comment\n", language: language, incoming: LexicalState())
         XCTAssertEqual(first.outgoing.delimiter, "*/")
         XCTAssertTrue(first.tokens.contains { $0.role == .keyword })
-        let second = NativeLexer.line("continued */ \"value\"\n", language: language, incoming: first.outgoing)
+        let second = SyntaxLexer.line("continued */ \"value\"\n", language: language, incoming: first.outgoing)
         XCTAssertTrue(second.outgoing.delimiter.isEmpty)
         XCTAssertTrue(second.tokens.contains { $0.role == .comment })
         XCTAssertTrue(second.tokens.contains { $0.role == .string })

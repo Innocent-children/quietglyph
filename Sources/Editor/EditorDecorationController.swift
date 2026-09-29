@@ -59,7 +59,7 @@ final class EditorDecorationController {
         }
         editor.textView.needsDisplay = true
     }
-    func draw(in view: NativeTextView, dirty: NSRect) {
+    func draw(in view: EditorTextView, dirty: NSRect) {
         guard let editor else { return }
         let settings = SettingsStore.shared.values
         if settings.highlightCurrentLine, let rect = view.localRect(NSRange(location: view.selectedRange().location, length: 0)) {

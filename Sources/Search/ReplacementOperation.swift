@@ -22,7 +22,7 @@ enum ReplacementOperation {
         let decoded = try DocumentIO.read(url)
         let change = try transform(decoded.text)
         let applied = try EditTransaction.applying(change.edits, to: decoded.text)
-        return Prepared(url: url, data: try FileCodec.encode(applied.text, metadata: decoded.metadata), stamp: expected,
+        return Prepared(url: url, data: try TextFileCodec.encode(applied.text, metadata: decoded.metadata), stamp: expected,
                         occurrences: change.occurrences, changed: applied.text != decoded.text)
     }
     static func commit(_ prepared: Prepared) throws {

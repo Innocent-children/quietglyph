@@ -23,7 +23,7 @@ final class FoldingController: NSObject, @preconcurrency NSTextContentStorageDel
     nonisolated static func regions(in string: String, language: LanguageDefinition, parsed: [HighlightLine]? = nil) -> [FoldRegion] {
         let text = string as NSString
         let lines = TextRanges.lines(text)
-        let parsed = parsed ?? NativeLexer.parse(string, language: language)
+        let parsed = parsed ?? SyntaxLexer.parse(string, language: language)
         let maskedLines = parsed.map { line -> String in
             let result = NSMutableString(string: line.text)
             for token in line.tokens where token.role == .comment || token.role == .string {

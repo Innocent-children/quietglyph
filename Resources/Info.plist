@@ -11,10 +11,10 @@
 <key>CFBundleVersion</key><string>1</string>
 <key>LSMinimumSystemVersion</key><string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 <key>NSHighResolutionCapable</key><true/>
-<key>NSPrincipalClass</key><string>$(PRODUCT_MODULE_NAME).NativeApplication</string>
+<key>NSPrincipalClass</key><string>$(PRODUCT_MODULE_NAME).QuietGlyphNSApplication</string>
 <key>NSSupportsAutomaticTermination</key><false/>
 <key>NSHumanReadableCopyright</key><string>Notepad-- and QuietGlyph contributors. GNU GPL v3.</string>
 <key>CFBundleDocumentTypes</key><array>
-<dict><key>CFBundleTypeName</key><string>Text Document</string><key>CFBundleTypeRole</key><string>Editor</string><key>LSHandlerRank</key><string>Alternate</string><key>LSItemContentTypes</key><array><string>public.plain-text</string><string>public.source-code</string><string>public.text</string><string>public.data</string></array><key>NSDocumentClass</key><string>$(PRODUCT_MODULE_NAME).NativeTextDocument</string></dict>
+<dict><key>CFBundleTypeName</key><string>Text Document</string><key>CFBundleTypeRole</key><string>Editor</string><key>LSHandlerRank</key><string>Alternate</string><key>LSItemContentTypes</key><array><string>public.plain-text</string><string>public.source-code</string><string>public.text</string><string>public.data</string></array><key>NSDocumentClass</key><string>$(PRODUCT_MODULE_NAME).TextDocument</string></dict>
 </array>
 </dict></plist>

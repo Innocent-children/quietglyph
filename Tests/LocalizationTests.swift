@@ -3,14 +3,14 @@ import XCTest
 
 final class LocalizationTests: XCTestCase {
     @MainActor func testFileNamesAreNotTranslatedAsCommands() {
-        let file = NativeControlFactory.menuItem(title: "Copy", selector: nil, localizeTitle: false)
-        let command = NativeControlFactory.menuItem(title: "Copy", selector: nil)
+        let file = AppKitControlFactory.menuItem(title: "Copy", selector: nil, localizeTitle: false)
+        let command = AppKitControlFactory.menuItem(title: "Copy", selector: nil)
         XCTAssertEqual(file.title, "Copy")
         XCTAssertEqual(command.title, L10n.text("Copy"))
     }
 
     func testLanguageDefaultsToChineseAndPersistsSelection() {
-        let suite = "notepad.localization.unit.\(UUID().uuidString)"
+        let suite = "quietglyph.localization.unit.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suite)!
         defer { defaults.removePersistentDomain(forName: suite) }
         XCTAssertEqual(InterfaceLanguage.saved(in: defaults), .simplifiedChinese)

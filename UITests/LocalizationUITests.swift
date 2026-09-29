@@ -2,7 +2,7 @@ import XCTest
 
 final class LocalizationUITests: XCTestCase {
     func testLanguageSelectionSurvivesRelaunchInBothDirections() {
-        let suite = "notepad.localization.ui.\(UUID().uuidString)"
+        let suite = "quietglyph.localization.ui.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suite)!
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing"]

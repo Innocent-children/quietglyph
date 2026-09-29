@@ -4,7 +4,7 @@ import XCTest
 final class DocumentIOTests: XCTestCase {
     @MainActor func testSidebarTracksSavedStateAndFileName() throws {
         let controller = DocumentController()
-        let document = NativeTextDocument()
+        let document = TextDocument()
         controller.addDocument(document)
         document.makeWindowControllers()
         defer { controller.removeDocument(document); document.close() }
@@ -23,7 +23,7 @@ final class DocumentIOTests: XCTestCase {
         let file = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension("txt")
         defer { try? FileManager.default.removeItem(at: file) }
         try Data("old content".utf8).write(to: file)
-        let document = NativeTextDocument()
+        let document = TextDocument()
         try document.read(from: file, ofType: "public.plain-text")
         document.fileURL = file
         document.fileType = "public.plain-text"
@@ -36,11 +36,11 @@ final class DocumentIOTests: XCTestCase {
         XCTAssertEqual(try String(data: document.data(ofType: "public.plain-text"), encoding: .utf8), "new disk content 中文")
         document.close()
     }
-    @MainActor func testNativeDocumentSafeWriteAndExternalChangeGuard() throws {
+    @MainActor func testTextDocumentSafeWriteAndExternalChangeGuard() throws {
         let file = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension("txt")
         defer { try? FileManager.default.removeItem(at: file) }
         try Data("original\r\n".utf8).write(to: file)
-        let document = NativeTextDocument()
+        let document = TextDocument()
         try document.read(from: file, ofType: "public.plain-text")
         document.fileURL = file
         document.initialText = "saved 中文🙂\r\n"

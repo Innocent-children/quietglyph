@@ -11,7 +11,7 @@ final class PagedFileTests: XCTestCase {
         XCTAssertEqual(first.text, "1234567")
         XCTAssertTrue(try reader.page(at: first.end).text.hasPrefix("\r\n"))
         var metadata = DocumentMetadata(); metadata.encoding = .utf16LE
-        try FileCodec.encode("a🙂b", metadata: metadata).write(to: url)
+        try TextFileCodec.encode("a🙂b", metadata: metadata).write(to: url)
         reader = try PagedFileReader(url: url, encoding: .utf16LE)
         XCTAssertEqual(try reader.page(at: 4).text, "b")
     }
@@ -21,7 +21,7 @@ final class PagedFileTests: XCTestCase {
             defer { try? FileManager.default.removeItem(at: url) }
             var metadata = DocumentMetadata(); metadata.encoding = encoding; metadata.hasBOM = !encoding.bom.isEmpty
             let source = String(repeating: "一🙂二\r\n", count: 60)
-            try FileCodec.encode(source, metadata: metadata).write(to: url)
+            try TextFileCodec.encode(source, metadata: metadata).write(to: url)
             let reader = try PagedFileReader(url: url, encoding: encoding)
             var output = "", cursor: UInt64 = 0
             while cursor < reader.size {
@@ -32,13 +32,13 @@ final class PagedFileTests: XCTestCase {
             XCTAssertEqual(output, source, encoding.title)
         }
     }
-    func testSparseLineIndexAndStreamingFind() async throws {
+    func testSparseFileLineIndexAndStreamingFind() async throws {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: url) }
         let source = (1...1400).map { "line\($0)\r\n" }.joined()
         try Data(source.utf8).write(to: url)
         let reader = try PagedFileReader(url: url)
-        let index = try await LineIndex.build(reader: reader)
+        let index = try await FileLineIndex.build(reader: reader)
         XCTAssertEqual(index.count, 1401)
         let offset = try await index.offset(for: 1025, reader: reader)
         XCTAssertTrue(try reader.page(at: offset).text.hasPrefix("line1025\r\n"))

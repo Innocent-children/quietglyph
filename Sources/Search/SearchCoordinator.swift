@@ -11,7 +11,7 @@ struct SearchDocumentSnapshot: Sendable {
 
 @MainActor
 enum SearchCoordinator {
-    static var documents: [NativeTextDocument] { NSDocumentController.shared.documents.compactMap { $0 as? NativeTextDocument } }
+    static var documents: [TextDocument] { NSDocumentController.shared.documents.compactMap { $0 as? TextDocument } }
     static func activate(_ result: SearchResult, editor: EditorController?) throws {
         if let id = result.documentID {
             guard let document = (documents + [editor?.document].compactMap { $0 }).first(where: { $0.recoveryID == id }), document.revision == result.revision else { throw EditorError.externalChange }

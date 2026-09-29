@@ -14,8 +14,8 @@ class LargeTextViewController: NSViewController {
     var history: [UInt64] = []
     var operation: Task<Void, Never>?
     var searchOperation: Task<UInt64?, Error>?
-    var lineIndex: LineIndex?
-    private var indexOperation: Task<LineIndex, Error>?
+    var lineIndex: FileLineIndex?
+    private var indexOperation: Task<FileLineIndex, Error>?
     private var lastNeedle = ""
     private var lastMatch: UInt64?
     var isHex: Bool { false }
@@ -105,7 +105,7 @@ class LargeTextViewController: NSViewController {
                 var metadata = DocumentMetadata(); metadata.encoding = reader.encoding
                 ruler?.labels = lines.enumerated().map { index, line in
                     let label = baseLine.map { String($0 + UInt64(index)) } ?? "@\(address)"
-                    address += UInt64((try? FileCodec.encode(source.substring(with: line), metadata: metadata).count) ?? 0)
+                    address += UInt64((try? TextFileCodec.encode(source.substring(with: line), metadata: metadata).count) ?? 0)
                     return label
                 }
                 if let baseLine { pageLines[page.start] = baseLine; pageLines[page.end] = baseLine + UInt64(max(0, lines.count - 1)) }
@@ -128,10 +128,10 @@ class LargeTextViewController: NSViewController {
             status.stringValue = L10n.text("Building line index…")
             operation = Task {
                 do {
-                    let index: LineIndex
+                    let index: FileLineIndex
                     if let saved = lineIndex { index = saved } else {
                         indexOperation?.cancel()
-                        indexOperation = Task.detached(priority: .userInitiated) { try await LineIndex.build(reader: reader) }
+                        indexOperation = Task.detached(priority: .userInitiated) { try await FileLineIndex.build(reader: reader) }
                         index = try await indexOperation!.value
                     }
                     try Task.checkCancellation()
@@ -149,7 +149,7 @@ class LargeTextViewController: NSViewController {
         guard let reader, !searchField.stringValue.isEmpty else { return }
         let needle = searchField.stringValue
         var metadata = DocumentMetadata(); metadata.encoding = reader.encoding
-        let advance = UInt64(max(1, (try? FileCodec.encode(needle, metadata: metadata).count) ?? 1))
+        let advance = UInt64(max(1, (try? TextFileCodec.encode(needle, metadata: metadata).count) ?? 1))
         let start = needle == lastNeedle ? (lastMatch.map { $0 + advance } ?? 0) : 0
         lastNeedle = needle
         searchOperation?.cancel()

@@ -22,7 +22,7 @@ final class PagedFileReader: @unchecked Sendable {
         let sample = try file.read(upToCount: 4096) ?? Data()
         var decoded: DecodedText?
         for trim in 0...min(4, sample.count) {
-            if let result = try? FileCodec.decode(sample.dropLast(trim), preferred: preferred) { decoded = result; break }
+            if let result = try? TextFileCodec.decode(sample.dropLast(trim), preferred: preferred) { decoded = result; break }
         }
         encoding = preferred ?? decoded?.metadata.encoding ?? .utf8
         hasBOM = sample.starts(with: encoding.bom) && !encoding.bom.isEmpty
@@ -67,7 +67,7 @@ final class PagedFileReader: @unchecked Sendable {
             try Task.checkCancellation()
             let page = try self.page(at: cursor, count: 1024 * 1024)
             guard page.end > cursor else { throw EditorError.decoding }
-            let overlapBytes = try FileCodec.encode(overlap, metadata: metadata).count
+            let overlapBytes = try TextFileCodec.encode(overlap, metadata: metadata).count
             let window = (overlap + page.text) as NSString
             let base = page.start - UInt64(overlapBytes)
             var searchRange = NSRange(location: 0, length: window.length)
@@ -75,7 +75,7 @@ final class PagedFileReader: @unchecked Sendable {
                 let found = window.range(of: text, options: .literal, range: searchRange)
                 if found.location == NSNotFound { break }
                 let prefix = window.substring(to: found.location)
-                let position = base + UInt64(try FileCodec.encode(prefix, metadata: metadata).count)
+                let position = base + UInt64(try TextFileCodec.encode(prefix, metadata: metadata).count)
                 if position >= offset { return position }
                 searchRange = NSRange(location: NSMaxRange(found), length: window.length - NSMaxRange(found))
             }

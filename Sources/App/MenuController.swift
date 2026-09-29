@@ -25,7 +25,7 @@ final class MenuController: NSObject, NSMenuItemValidation, NSMenuDelegate {
             MainActor.assumeIsolated { self?.install() }
         }
     }
-    var document: NativeTextDocument? { NSDocumentController.shared.currentDocument as? NativeTextDocument }
+    var document: TextDocument? { NSDocumentController.shared.currentDocument as? TextDocument }
     var windowController: DocumentWindowController? { document?.windowControllers.first as? DocumentWindowController }
     var editor: EditorController? { document?.editor }
 
@@ -36,14 +36,14 @@ final class MenuController: NSObject, NSMenuItemValidation, NSMenuDelegate {
             let child = NSMenu(title: L10n.text(title)); parent.submenu = child; main.addItem(parent); return child
         }
         func standard(_ menu: NSMenu, _ title: String, _ action: String, _ key: String = "") {
-            let item = NativeControlFactory.menuItem(title: title, selector: NSSelectorFromString(action), key: key)
+            let item = AppKitControlFactory.menuItem(title: title, selector: NSSelectorFromString(action), key: key)
             configureShortcut(item, id: "system:" + action)
             menu.addItem(item)
         }
         let app = menu("QuietGlyph")
         standard(app, "About QuietGlyph", "orderFrontStandardAboutPanel:")
         app.addItem(.separator())
-        app.addItem(NativeControlFactory.menuItem(title: "Settings…", selector: #selector(settings(_:)), key: ",", target: self))
+        app.addItem(AppKitControlFactory.menuItem(title: "Settings…", selector: #selector(settings(_:)), key: ",", target: self))
         let services = NSMenu(title: L10n.text("Services"))
         let serviceItem = NSMenuItem(title: L10n.text("Services"), action: nil, keyEquivalent: ""); serviceItem.submenu = services; app.addItem(serviceItem); NSApp.servicesMenu = services
         app.addItem(.separator())
@@ -135,7 +135,7 @@ final class MenuController: NSObject, NSMenuItemValidation, NSMenuDelegate {
         let menu = NSMenu(title: L10n.text(title)); item.submenu = menu; parent.addItem(item); return menu
     }
     private func action(_ menu: NSMenu, _ title: String, _ id: String, key: String = "", localizeTitle: Bool = true) {
-        let item = NativeControlFactory.menuItem(title: title, selector: #selector(run(_:)), key: key, target: self, localizeTitle: localizeTitle)
+        let item = AppKitControlFactory.menuItem(title: title, selector: #selector(run(_:)), key: key, target: self, localizeTitle: localizeTitle)
         configureShortcut(item, id: id)
         item.representedObject = id; menu.addItem(item)
     }
@@ -219,21 +219,21 @@ final class MenuController: NSObject, NSMenuItemValidation, NSMenuDelegate {
         case "unfold-all": editor?.folding.expandAll()
         case "add-next": editor?.addNextOccurrence()
         case "select-occurrences": editor?.addNextOccurrence(all: true)
-        case "json": editor?.transform(name: "Format JSON", FormatService.json)
-        case "xml": editor?.transform(name: "Format XML", FormatService.xml)
+        case "json": editor?.transform(name: "Format JSON", StructuredTextFormatter.json)
+        case "xml": editor?.transform(name: "Format XML", StructuredTextFormatter.xml)
         case "comment": editor?.commentLines()
         case "block-comment":
             if let editor, !editor.language.blockCommentStart.isEmpty {
                 editor.transform(name: "Block Comment") { editor.language.blockCommentStart + $0 + editor.language.blockCommentEnd }
             }
         case "preview": windowController?.showPreview()
-        case "print": if let document, let window = windowController?.window { PrintController.printDocument(document, window: window) }
+        case "print": if let document, let window = windowController?.window { DocumentPrinter.printDocument(document, window: window) }
         case "hex": if let url = document?.fileURL { delegate?.documents.openViewer(url, mode: .hex) }
         case "text":
             if let url = document?.fileURL {
                 do {
                     let decoded = try DocumentIO.read(url)
-                    let textDocument = NativeTextDocument()
+                    let textDocument = TextDocument()
                     textDocument.initialText = decoded.text; textDocument.metadata = decoded.metadata
                     textDocument.restoredTitle = L10n.format("%@ — Text Copy", url.lastPathComponent)
                     delegate?.documents.addDocument(textDocument)
@@ -361,6 +361,6 @@ final class MenuController: NSObject, NSMenuItemValidation, NSMenuDelegate {
         menu.removeAllItems()
         for url in NSDocumentController.shared.recentDocumentURLs { action(menu, url.lastPathComponent, "recent:" + url.path, localizeTitle: false) }
         menu.addItem(.separator())
-        menu.addItem(NativeControlFactory.menuItem(title: "Clear Recent Files", selector: NSSelectorFromString("clearRecentDocuments:")))
+        menu.addItem(AppKitControlFactory.menuItem(title: "Clear Recent Files", selector: NSSelectorFromString("clearRecentDocuments:")))
     }
 }

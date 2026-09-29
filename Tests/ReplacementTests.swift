@@ -8,8 +8,8 @@ final class ReplacementTests: XCTestCase {
         defer { try? FileManager.default.removeItem(at: folder) }
         let a = folder.appendingPathComponent("open.txt"), b = folder.appendingPathComponent("closed.txt")
         var metadata = DocumentMetadata(); metadata.encoding = .utf16LE; metadata.hasBOM = true
-        try FileCodec.encode("猫\r\n", metadata: metadata).write(to: a)
-        try FileCodec.encode("猫\r\n", metadata: metadata).write(to: b)
+        try TextFileCodec.encode("猫\r\n", metadata: metadata).write(to: a)
+        try TextFileCodec.encode("猫\r\n", metadata: metadata).write(to: b)
         var query = SearchQuery(); query.text = "猫"; query.replacement = "狗"; query.filePatterns = "*.txt"
         let search = await SearchService.directory(folder, query: query)
         XCTAssertEqual(search.results.count, 2)

@@ -35,6 +35,6 @@ enum BatchEncodingService {
         var decoded = try DocumentIO.read(item.url, preferred: item.metadata?.encoding)
         decoded.metadata.encoding = encoding; decoded.metadata.hasBOM = bom && !encoding.bom.isEmpty
         try Task.checkCancellation()
-        return try FileCodec.encode(decoded.text, metadata: decoded.metadata)
+        return try TextFileCodec.encode(decoded.text, metadata: decoded.metadata)
     }
 }

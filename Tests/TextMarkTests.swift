@@ -4,7 +4,7 @@ import AppKit
 
 final class TextMarkTests: XCTestCase {
     @MainActor func testMarksAndBookmarksRestoreAcrossDeletionUndoRedo() throws {
-        let document = NativeTextDocument(); document.initialText = "first\nsecond\nthird"
+        let document = TextDocument(); document.initialText = "first\nsecond\nthird"
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         defer { document.close() }
         editor.mark([NSRange(location: 6, length: 6)], color: "Yellow"); editor.bookmarks.add([6])

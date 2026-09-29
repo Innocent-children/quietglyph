@@ -1,6 +1,6 @@
 import Foundation
 
-enum FormatService {
+enum StructuredTextFormatter {
     static func json(_ text: String) throws -> String {
         let object = try JSONSerialization.jsonObject(with: Data(text.utf8), options: .fragmentsAllowed)
         let data = try JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted, .sortedKeys, .fragmentsAllowed, .withoutEscapingSlashes])

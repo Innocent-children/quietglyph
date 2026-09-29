@@ -1,9 +1,9 @@
 import XCTest
 
-final class FeatureParityUITests: XCTestCase {
+final class EditingAndToolsUITests: XCTestCase {
     func testMultilineTabSearchReplacementAndToolPanels() {
         let app = XCUIApplication()
-        let suite = "notepad.parity.ui.\(UUID().uuidString)"
+        let suite = "quietglyph.editing-tools.ui.\(UUID().uuidString)"
         app.launchArguments = ["--ui-testing"]
         app.launchEnvironment["QUIETGLYPH_TEST_DEFAULTS"] = suite
         app.launch()
@@ -34,6 +34,6 @@ final class FeatureParityUITests: XCTestCase {
         app.menuBars.menuBarItems["搜索"].click(); app.menuItems["batch-find"].click()
         let batch = app.windows["批量查找与替换"]
         XCTAssertTrue(batch.waitForExistence(timeout: 5)); XCTAssertTrue(batch.buttons["添加规则"].exists)
-        let capture = XCTAttachment(screenshot: batch.screenshot()); capture.name = "Native batch rules"; capture.lifetime = .keepAlways; add(capture)
+        let capture = XCTAttachment(screenshot: batch.screenshot()); capture.name = "Batch rules"; capture.lifetime = .keepAlways; add(capture)
     }
 }

@@ -12,7 +12,7 @@ final class BatchFileToolsTests: XCTestCase {
         var options = BatchRenameOptions(); options.prefix = "new-"
         let items = try BatchRenameService.preview(root: root, options: options)
         XCTAssertEqual(items.count, 1); XCTAssertEqual(items[0].destination.lastPathComponent, "new-one.txt")
-        let document = NativeTextDocument(); try document.read(from: url, ofType: "public.plain-text"); document.fileURL = url; document.fileType = "public.plain-text"
+        let document = TextDocument(); try document.read(from: url, ofType: "public.plain-text"); document.fileURL = url; document.fileType = "public.plain-text"
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         defer { document.close() }
         editor.setSelections([NSRange(location: 0, length: 0)])
@@ -30,7 +30,7 @@ final class BatchFileToolsTests: XCTestCase {
         let url = root.appendingPathComponent("one.txt"); try Data("中文\r\n".utf8).write(to: url)
         let item = try XCTUnwrap(BatchEncodingService.scan(root: root, patterns: "*.txt", recursive: false, openURLs: []).first)
         let data = try BatchEncodingService.prepare(item, encoding: .utf16LE, bom: true)
-        let result = try FileCodec.decode(data)
+        let result = try TextFileCodec.decode(data)
         XCTAssertEqual(result.text, "中文\r\n"); XCTAssertTrue(result.metadata.hasBOM)
         try Data("changed".utf8).write(to: url)
         XCTAssertThrowsError(try BatchEncodingService.prepare(item, encoding: .gbk, bom: false))

@@ -2,14 +2,14 @@ import AppKit
 
 @MainActor
 final class AutosaveController {
-    private let documents: () -> [NativeTextDocument]
+    private let documents: () -> [TextDocument]
     private let now: () -> TimeInterval
     private var timer: Timer?
     private var lastRun: TimeInterval = 0
     private(set) var enabled = false
     private var saving = false
-    var onError: (NativeTextDocument, Error) -> Void = { document, error in document.presentError(error) }
-    init(documents: @escaping () -> [NativeTextDocument], now: @escaping () -> TimeInterval = { Date.timeIntervalSinceReferenceDate }) {
+    var onError: (TextDocument, Error) -> Void = { document, error in document.presentError(error) }
+    init(documents: @escaping () -> [TextDocument], now: @escaping () -> TimeInterval = { Date.timeIntervalSinceReferenceDate }) {
         self.documents = documents; self.now = now
     }
     func configure(enabled: Bool, scheduleTimer: Bool = true) {

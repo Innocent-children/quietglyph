@@ -1,6 +1,6 @@
 import Foundation
 
-enum NativeLexer {
+enum SyntaxLexer {
     struct Context {
         let keywords: Set<String>
         let rules: [(NSRegularExpression, TokenRole)]

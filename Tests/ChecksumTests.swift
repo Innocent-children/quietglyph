@@ -26,7 +26,7 @@ final class ChecksumTests: XCTestCase {
         defer { try? FileManager.default.removeItem(at: url) }
         for encoding in [TextEncoding.utf8, .utf16LE, .gbk] {
             var metadata = DocumentMetadata(); metadata.encoding = encoding; metadata.hasBOM = !encoding.bom.isEmpty
-            let bytes = try FileCodec.encode("中文\r\n", metadata: metadata); try bytes.write(to: url)
+            let bytes = try TextFileCodec.encode("中文\r\n", metadata: metadata); try bytes.write(to: url)
             let digest = try await ChecksumService.file(url)
             XCTAssertEqual(digest, ChecksumService.digest(bytes))
         }

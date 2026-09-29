@@ -3,7 +3,7 @@ import XCTest
 @testable import QuietGlyph
 
 final class DocumentRenameTests: XCTestCase {
-    @MainActor private func rename(_ document: NativeTextDocument, to name: String) async throws {
+    @MainActor private func rename(_ document: TextDocument, to name: String) async throws {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             document.rename(to: name) { error in
                 if let error { continuation.resume(throwing: error) }
@@ -13,7 +13,7 @@ final class DocumentRenameTests: XCTestCase {
     }
 
     @MainActor func testUntitledRenameUpdatesTitleAndSuggestedSaveName() async throws {
-        let document = NativeTextDocument()
+        let document = TextDocument()
         document.makeWindowControllers()
         defer { document.close() }
         try await rename(document, to: "新的笔记.txt")
@@ -33,7 +33,7 @@ final class DocumentRenameTests: XCTestCase {
         let existing = folder.appendingPathComponent("existing.txt")
         try Data("original".utf8).write(to: original)
         try Data("existing".utf8).write(to: existing)
-        let document = NativeTextDocument()
+        let document = TextDocument()
         try document.read(from: original, ofType: "public.plain-text")
         document.fileURL = original
         document.fileType = "public.plain-text"
@@ -52,7 +52,7 @@ final class DocumentRenameTests: XCTestCase {
         XCTAssertEqual(document.fileURL, original)
     }
 
-    @MainActor private func move(_ document: NativeTextDocument, to url: URL) async throws {
+    @MainActor private func move(_ document: TextDocument, to url: URL) async throws {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             document.move(to: url) { error in
                 if let error { continuation.resume(throwing: error) }
@@ -68,7 +68,7 @@ final class DocumentRenameTests: XCTestCase {
         let original = folder.appendingPathComponent("original.txt")
         let renamed = folder.appendingPathComponent("改名后.txt")
         try Data("disk content".utf8).write(to: original)
-        let document = NativeTextDocument()
+        let document = TextDocument()
         try document.read(from: original, ofType: "public.plain-text")
         document.fileURL = original
         document.fileType = "public.plain-text"
@@ -105,7 +105,7 @@ final class DocumentRenameTests: XCTestCase {
         defer { try? FileManager.default.removeItem(at: folder) }
         let original = folder.appendingPathComponent("original.txt")
         try Data("original".utf8).write(to: original)
-        let document = NativeTextDocument()
+        let document = TextDocument()
         try document.read(from: original, ofType: "public.plain-text")
         document.fileURL = original
         document.fileType = "public.plain-text"

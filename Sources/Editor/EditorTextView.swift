@@ -1,7 +1,7 @@
 import AppKit
 
 @MainActor
-final class NativeTextView: NSTextView {
+final class EditorTextView: NSTextView {
     weak var editor: EditorController?
     private var rectangleAnchor: (line: Int, column: Int)?
     private func rectanglePosition(_ point: NSPoint) -> (line: Int, column: Int)? {

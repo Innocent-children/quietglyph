@@ -2,8 +2,8 @@ import AppKit
 import UniformTypeIdentifiers
 
 @MainActor
-final class NativeTextDocument: NSDocument {
-    static let didChangeState = Notification.Name("NativeTextDocumentDidChangeState")
+final class TextDocument: NSDocument {
+    static let didChangeState = Notification.Name("TextDocumentDidChangeState")
     nonisolated(unsafe) var initialText = ""
     nonisolated(unsafe) var metadata = DocumentMetadata()
     nonisolated(unsafe) var mode: DocumentMode = .text
@@ -50,14 +50,14 @@ final class NativeTextDocument: NSDocument {
             let sample = try file.read(upToCount: 4096) ?? Data()
             var decoded: DecodedText?
             for trim in 0...min(4, sample.count) {
-                if let value = try? FileCodec.decode(sample.dropLast(trim)) { decoded = value; break }
+                if let value = try? TextFileCodec.decode(sample.dropLast(trim)) { decoded = value; break }
             }
             if loadedMode != .hex, let decoded, !decoded.text.contains("\0") {
                 loadedMode = .largeText; loadedMetadata = decoded.metadata
             } else { loadedMode = .hex }
         } else {
             let data = try Data(contentsOf: url, options: .mappedIfSafe)
-            if let decoded = try? FileCodec.decode(data), !decoded.text.contains("\0"), loadedMode != .hex {
+            if let decoded = try? TextFileCodec.decode(data), !decoded.text.contains("\0"), loadedMode != .hex {
                 loadedText = decoded.text; loadedMetadata = decoded.metadata
             } else { loadedMode = .hex }
         }
@@ -91,7 +91,7 @@ final class NativeTextDocument: NSDocument {
         try MainActor.assumeIsolated {
             guard mode == .text else { throw EditorError.readOnly }
             editor?.breakTypingCoalescing()
-            return try FileCodec.encode(editor?.textView.string ?? initialText, metadata: metadata)
+            return try TextFileCodec.encode(editor?.textView.string ?? initialText, metadata: metadata)
         }
     }
 

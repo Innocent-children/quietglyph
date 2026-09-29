@@ -91,7 +91,7 @@ final class SearchPanelModel: ObservableObject {
         } catch { message = error.localizedDescription }
     }
     private func navigateResults(backwards: Bool) {
-        let currentDocument = NSDocumentController.shared.currentDocument as? NativeTextDocument ?? editor?.document
+        let currentDocument = NSDocumentController.shared.currentDocument as? TextDocument ?? editor?.document
         let current = currentDocument?.editor?.textView.selectedRange() ?? NSRange(location: 0, length: 0)
         let id = currentDocument?.recoveryID
         let results = report.results

@@ -11,17 +11,17 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
     var viewer: LargeTextViewController?
     private var searchHost: NSHostingController<SearchPanel>!
     private var searchHeight: NSLayoutConstraint!
-    private let nativeDocument: NativeTextDocument
+    private let textDocument: TextDocument
     private let documentTitleButton = NSButton()
     private weak var documentTitleField: NSTextField?
     private var documentTitleConstraints: [NSLayoutConstraint] = []
     private(set) var renamePopover: NSPopover?
-    var preview: PreviewController?
+    var preview: MarkdownPreviewController?
     var navigation: NSSegmentedControl?
     private var windowReady = false
 
-    init(document: NativeTextDocument) {
-        nativeDocument = document
+    init(document: TextDocument) {
+        textDocument = document
         let rememberedFrame = SettingsStore.shared.values.rememberWindowFrame ? SessionStore.shared.windowFrame() : nil
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1600, height: 900),
             styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
@@ -76,7 +76,7 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
               let closeButton = window.standardWindowButton(.closeButton),
               let titlebar = closeButton.superview else { return }
         title.isHidden = true
-        documentTitleButton.title = nativeDocument.displayName
+        documentTitleButton.title = textDocument.displayName
         documentTitleButton.font = title.font
         if documentTitleField === title, documentTitleButton.superview === titlebar { return }
         NSLayoutConstraint.deactivate(documentTitleConstraints)
@@ -101,7 +101,7 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
         if let renamePopover, renamePopover.isShown { renamePopover.performClose(sender); return }
         let popover = NSPopover()
         popover.behavior = .transient
-        let host = NSHostingController(rootView: DocumentRenameView(document: nativeDocument) { [weak popover] in
+        let host = NSHostingController(rootView: DocumentRenameView(document: textDocument) { [weak popover] in
             popover?.performClose(nil)
         })
         host.view.layoutSubtreeIfNeeded()
@@ -115,7 +115,7 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
 
     private func configureContent() {
         guard let window else { return }
-        let document = nativeDocument
+        let document = textDocument
         searchModel.cancel()
         searchModel.report = SearchReport()
         searchModel.isVisible = false
@@ -196,14 +196,14 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
             status.size = L10n.format("%ld lines", lines.count)
             status.language = L10n.text(editor.language.name)
             sidebarModel.bookmarks = editor.bookmarks.offsets.map { TextRanges.lineNumber(at: $0, in: text) }
-            if preview?.window?.isVisible == true { preview?.render(editor.textView.string, baseURL: nativeDocument.fileURL?.deletingLastPathComponent()) }
-        } else { status.position = L10n.text("Read Only"); status.language = nativeDocument.mode == .hex ? L10n.text("Hexadecimal") : L10n.text("Large Text") }
-        status.encoding = nativeDocument.mode == .hex ? L10n.text("Bytes") : nativeDocument.metadata.encoding.title + (nativeDocument.metadata.hasBOM ? " BOM" : "")
-        status.lineEnding = nativeDocument.mode == .text ? nativeDocument.metadata.lineEnding.title : L10n.text("Read Only")
+            if preview?.window?.isVisible == true { preview?.render(editor.textView.string, baseURL: textDocument.fileURL?.deletingLastPathComponent()) }
+        } else { status.position = L10n.text("Read Only"); status.language = textDocument.mode == .hex ? L10n.text("Hexadecimal") : L10n.text("Large Text") }
+        status.encoding = textDocument.mode == .hex ? L10n.text("Bytes") : textDocument.metadata.encoding.title + (textDocument.metadata.hasBOM ? " BOM" : "")
+        status.lineEnding = textDocument.mode == .text ? textDocument.metadata.lineEnding.title : L10n.text("Read Only")
         (NSDocumentController.shared as? DocumentController)?.refreshSidebars()
     }
     func showSearch() {
-        guard nativeDocument.mode == .text else { viewer?.searchField.becomeFirstResponder(); return }
+        guard textDocument.mode == .text else { viewer?.searchField.becomeFirstResponder(); return }
         NSAnimationContext.runAnimationGroup { context in
             context.duration = AppearancePolicy.shared.duration
             context.allowsImplicitAnimation = context.duration > 0
@@ -219,8 +219,8 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
     @objc func toggleSidebar(_ sender: Any?) { split.toggleSidebar(sender) }
     func showPreview() {
         guard let editor = editorController else { return }
-        if preview == nil { preview = PreviewController() }
-        preview?.render(editor.textView.string, baseURL: nativeDocument.fileURL?.deletingLastPathComponent()); preview?.showWindow(nil)
+        if preview == nil { preview = MarkdownPreviewController() }
+        preview?.render(editor.textView.string, baseURL: textDocument.fileURL?.deletingLastPathComponent()); preview?.showWindow(nil)
     }
     private func activateResult(_ result: SearchResult) {
         do { try SearchCoordinator.activate(result, editor: editorController) }
@@ -267,7 +267,7 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
             item.target = self; item.action = #selector(toggleSidebar(_:))
         case "navigation":
             item.label = L10n.text("Navigate")
-            let control = NativeControlFactory.navigation(labels: ["Files", "Bookmarks"], target: self, action: #selector(navigate(_:)))
+            let control = AppKitControlFactory.navigation(labels: ["Files", "Bookmarks"], target: self, action: #selector(navigate(_:)))
             control.selectedSegment = 0; navigation = control; item.view = control
         case "find":
             item.label = L10n.text("Find"); item.image = NSImage(systemSymbolName: "magnifyingglass", accessibilityDescription: L10n.text("Find"))

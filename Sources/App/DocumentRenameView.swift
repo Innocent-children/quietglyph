@@ -1,14 +1,14 @@
 import SwiftUI
 
 struct DocumentRenameView: View {
-    let document: NativeTextDocument
+    let document: TextDocument
     let dismiss: () -> Void
     @State private var name: String
     @State private var errorMessage: String?
     @State private var isRenaming = false
     @FocusState private var nameIsFocused: Bool
 
-    init(document: NativeTextDocument, dismiss: @escaping () -> Void) {
+    init(document: TextDocument, dismiss: @escaping () -> Void) {
         self.document = document
         self.dismiss = dismiss
         _name = State(initialValue: document.fileURL?.lastPathComponent ?? document.displayName)

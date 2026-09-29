@@ -19,14 +19,14 @@ final class FoldingTests: XCTestCase {
         XCTAssertEqual((source as NSString).substring(with: folds[0].hidden), "  \"}\"\n  // }\n  value\n")
     }
     @MainActor func testFoldingNeverChangesSavedText() throws {
-        let document = NativeTextDocument()
+        let document = TextDocument()
         document.initialText = "{\n  value\n}\n"
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         var language = LanguageDefinition.plain; language.id = "braces"; language.folding = "braces"
         editor.language = language
         editor.folding.collapseAll()
         XCTAssertEqual(editor.textView.string, document.initialText)
-        XCTAssertEqual(try FileCodec.decode(document.data(ofType: "public.plain-text")).text, document.initialText)
+        XCTAssertEqual(try TextFileCodec.decode(document.data(ofType: "public.plain-text")).text, document.initialText)
         editor.folding.expandAll()
         document.close()
     }

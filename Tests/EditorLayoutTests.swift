@@ -21,7 +21,7 @@ final class EditorLayoutTests: XCTestCase {
 
     @MainActor private struct Fixture {
         let preferences: Preferences
-        let document: NativeTextDocument
+        let document: TextDocument
         let editor: EditorController
         let window: NSWindow
         let ruler: LineNumberRuler
@@ -29,7 +29,7 @@ final class EditorLayoutTests: XCTestCase {
         init(_ text: String = "") throws {
             preferences = SettingsStore.shared.values
             SettingsStore.shared.values = Preferences()
-            document = NativeTextDocument()
+            document = TextDocument()
             document.initialText = text
             editor = EditorController(document: document)
             document.editor = editor
@@ -51,7 +51,7 @@ final class EditorLayoutTests: XCTestCase {
         }
     }
 
-    @MainActor private func withEditor(_ text: String = "", _ body: (EditorController, NativeTextDocument, NSWindow, LineNumberRuler) throws -> Void) throws {
+    @MainActor private func withEditor(_ text: String = "", _ body: (EditorController, TextDocument, NSWindow, LineNumberRuler) throws -> Void) throws {
         let fixture = try Fixture(text)
         defer { fixture.close() }
         try body(fixture.editor, fixture.document, fixture.window, fixture.ruler)

@@ -1,8 +1,8 @@
 import AppKit
 
 @MainActor
-enum PrintController {
-    static func printDocument(_ document: NativeTextDocument, window: NSWindow) {
+enum DocumentPrinter {
+    static func printDocument(_ document: TextDocument, window: NSWindow) {
         let info = document.printInfo
         let width = info.paperSize.width - info.leftMargin - info.rightMargin
         let text = NSTextView(frame: NSRect(x: 0, y: 0, width: width, height: 1))

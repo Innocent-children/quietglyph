@@ -2,10 +2,10 @@ import XCTest
 import AppKit
 @testable import QuietGlyph
 
-final class PreviewTests: XCTestCase {
+final class MarkdownRendererTests: XCTestCase {
     @MainActor func testMarkdownBlocksTablesImageAndUnicode() throws {
         let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().appendingPathComponent("Fixtures", isDirectory: true)
-        let source = try String(contentsOf: root.appendingPathComponent("markdown-parity.md"), encoding: .utf8)
+        let source = try String(contentsOf: root.appendingPathComponent("markdown-preview.md"), encoding: .utf8)
         let rendered = try MarkdownRenderer.render(source, baseURL: root)
         XCTAssertTrue(rendered.string.contains("Markdown 对照 🙂\n"))
         XCTAssertTrue(rendered.string.contains("•\t第一项")); XCTAssertTrue(rendered.string.contains("•\t嵌套项"))

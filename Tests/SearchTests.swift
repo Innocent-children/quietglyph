@@ -3,7 +3,7 @@ import XCTest
 
 final class SearchTests: XCTestCase {
     @MainActor func testSelectionNavigationDoesNotEscapeWithoutWrap() {
-        let document = NativeTextDocument(); document.initialText = "cat cat cat"
+        let document = TextDocument(); document.initialText = "cat cat cat"
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         defer { document.close() }
         editor.setSelections([NSRange(location: 4, length: 3)])
@@ -18,7 +18,7 @@ final class SearchTests: XCTestCase {
         defer { try? FileManager.default.removeItem(at: root) }
         let url = root.appendingPathComponent("open.txt"), closed = root.appendingPathComponent("closed.txt")
         try Data("disk".utf8).write(to: url); try Data("cat".utf8).write(to: closed)
-        let document = NativeTextDocument(); document.initialText = "cat"; document.fileURL = url
+        let document = TextDocument(); document.initialText = "cat"; document.fileURL = url
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         NSDocumentController.shared.addDocument(document)
         defer { document.close() }
@@ -39,7 +39,7 @@ final class SearchTests: XCTestCase {
         XCTAssertEqual(try EditTransaction.applying(edits, to: "a\tb").text, "猫\n")
     }
     @MainActor func testOpenUnsavedSnapshotAndStaleReplacement() async throws {
-        let document = NativeTextDocument(); document.initialText = "cat"
+        let document = TextDocument(); document.initialText = "cat"
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         NSDocumentController.shared.addDocument(document)
         defer { document.close() }

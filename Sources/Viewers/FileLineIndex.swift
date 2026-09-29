@@ -1,10 +1,10 @@
 import Foundation
 
-struct LineIndex: Sendable {
+struct FileLineIndex: Sendable {
     struct Entry: Sendable { var line: UInt64; var offset: UInt64 }
     var entries: [Entry]
     var count: UInt64
-    static func build(reader: PagedFileReader) async throws -> LineIndex {
+    static func build(reader: PagedFileReader) async throws -> FileLineIndex {
         let unit = [.utf16LE, .utf16BE].contains(reader.encoding) ? 2 : 1
         var offset: UInt64 = reader.hasBOM ? UInt64(reader.encoding.bom.count) : 0
         var entries = [Entry(line: 1, offset: offset)]
@@ -32,7 +32,7 @@ struct LineIndex: Sendable {
             }
             offset += UInt64(bytes.count)
         }
-        return LineIndex(entries: entries, count: line)
+        return FileLineIndex(entries: entries, count: line)
     }
     func offset(for target: UInt64, reader: PagedFileReader) async throws -> UInt64 {
         let goal = min(max(1, target), count)

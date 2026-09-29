@@ -4,7 +4,7 @@ import XCTest
 
 final class WindowLifecycleTests: XCTestCase {
     @MainActor func testCenteredTitleKeepsRenamePopoverCloseAndFollowsNameChanges() async throws {
-        let document = NativeTextDocument()
+        let document = TextDocument()
         document.makeWindowControllers()
         defer { document.close() }
         document.showWindows()
@@ -41,7 +41,7 @@ final class WindowLifecycleTests: XCTestCase {
     }
 
     @MainActor func testInitialWindowKeepsWidescreenSizeAfterLayout() throws {
-        let document = NativeTextDocument()
+        let document = TextDocument()
         document.makeWindowControllers()
         defer { document.close() }
         let window = try XCTUnwrap(document.windowControllers.first?.window)
@@ -66,7 +66,7 @@ final class WindowLifecycleTests: XCTestCase {
 
         XCTAssertFalse(delegate.applicationShouldHandleReopen(NSApp, hasVisibleWindows: false))
         XCTAssertEqual(controller.documents.count, 1)
-        let reopened = try XCTUnwrap(controller.documents.first as? NativeTextDocument)
+        let reopened = try XCTUnwrap(controller.documents.first as? TextDocument)
         XCTAssertNotNil(reopened.editor)
         XCTAssertTrue(reopened.windowControllers.first?.window?.isVisible == true)
 

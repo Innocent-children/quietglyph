@@ -8,7 +8,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var settingsWindow: NSWindowController?
     private(set) var isPreparingTermination = false
     private let initialSession = SessionStore.shared.load()
-    private lazy var autosave = AutosaveController(documents: { [weak self] in self?.documents.documents.compactMap { $0 as? NativeTextDocument } ?? [] })
+    private lazy var autosave = AutosaveController(documents: { [weak self] in self?.documents.documents.compactMap { $0 as? TextDocument } ?? [] })
     private var settingsObserver: NSObjectProtocol?
     init(documents: DocumentController) { self.documents = documents; super.init() }
     func applicationWillFinishLaunching(_ notification: Notification) {
@@ -75,7 +75,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func prepareTermination() {
         isPreparingTermination = true
         documents.saveSession()
-        for document in documents.documents.compactMap({ $0 as? NativeTextDocument }) {
+        for document in documents.documents.compactMap({ $0 as? TextDocument }) {
             document.editor?.textView.unmarkText()
             document.persistRecovery()
         }

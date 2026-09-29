@@ -1,7 +1,7 @@
 import AppKit
 
 @MainActor
-final class PreviewController: NSWindowController {
+final class MarkdownPreviewController: NSWindowController {
     let textView = NSTextView(usingTextLayoutManager: true)
     init() {
         let scroll = NSScrollView()

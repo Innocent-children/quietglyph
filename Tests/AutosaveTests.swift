@@ -7,7 +7,7 @@ final class AutosaveTests: XCTestCase {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try Data("old".utf8).write(to: url)
         defer { try? FileManager.default.removeItem(at: url) }
-        let document = NativeTextDocument(); try document.read(from: url, ofType: "public.plain-text")
+        let document = TextDocument(); try document.read(from: url, ofType: "public.plain-text")
         document.fileURL = url; document.fileType = "public.plain-text"
         let editor = EditorController(document: document); document.editor = editor; _ = editor.view
         defer { document.close() }

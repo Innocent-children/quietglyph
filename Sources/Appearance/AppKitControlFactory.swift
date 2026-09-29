@@ -1,7 +1,7 @@
 import AppKit
 
 @MainActor
-enum NativeControlFactory {
+enum AppKitControlFactory {
     static func navigation(labels: [String], target: AnyObject?, action: Selector?) -> NSSegmentedControl {
         let control = NSSegmentedControl(labels: labels.map { L10n.text($0) }, trackingMode: .selectOne, target: target, action: action)
         if #available(macOS 27.0, *) { control.role = .tabs }

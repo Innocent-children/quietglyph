@@ -15,7 +15,7 @@ enum DocumentIO {
                          inode: (a[.systemFileNumber] as? NSNumber)?.uint64Value ?? 0)
     }
     static func read(_ url: URL, preferred: TextEncoding? = nil) throws -> DecodedText {
-        try FileCodec.decode(Data(contentsOf: url, options: .mappedIfSafe), preferred: preferred)
+        try TextFileCodec.decode(Data(contentsOf: url, options: .mappedIfSafe), preferred: preferred)
     }
 
     /**
