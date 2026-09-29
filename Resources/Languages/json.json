@@ -1,0 +1,35 @@
+{
+  "id": "json",
+  "blocks": [],
+  "foldPairs": [],
+  "embedded": [],
+  "name": "JSON",
+  "extensions": [
+    "json"
+  ],
+  "keywords": [
+    "@base",
+    "@container",
+    "@context",
+    "@graph",
+    "@id",
+    "@index",
+    "@language",
+    "@list",
+    "@reverse",
+    "@set",
+    "@type",
+    "@value",
+    "@vocab",
+    "false",
+    "null",
+    "true"
+  ],
+  "lineComment": "//",
+  "blockCommentStart": "/*",
+  "blockCommentEnd": "*/",
+  "multilineStrings": [],
+  "caseSensitive": true,
+  "folding": "braces",
+  "rules": []
+}

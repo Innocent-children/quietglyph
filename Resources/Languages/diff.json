@@ -1,0 +1,32 @@
+{
+  "id": "diff",
+  "blocks": [],
+  "foldPairs": [],
+  "embedded": [],
+  "name": "DIFF",
+  "extensions": [
+    "diff",
+    "patch"
+  ],
+  "keywords": [],
+  "lineComment": "",
+  "blockCommentStart": "",
+  "blockCommentEnd": "",
+  "multilineStrings": [],
+  "caseSensitive": true,
+  "folding": "none",
+  "rules": [
+    {
+      "pattern": "^\\+.*",
+      "role": "added"
+    },
+    {
+      "pattern": "^-.*",
+      "role": "removed"
+    },
+    {
+      "pattern": "^@@.*",
+      "role": "heading"
+    }
+  ]
+}

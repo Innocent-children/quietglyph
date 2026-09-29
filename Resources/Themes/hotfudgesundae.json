@@ -1,0 +1,13 @@
+{
+  "id": "hotfudgesundae",
+  "name": "HotFudgeSundae",
+  "colors": {
+    "foreground": "B7975D",
+    "background": "2B0F01",
+    "keyword": "4AD231",
+    "comment": "208008",
+    "string": "BCBB80",
+    "number": "AFA7D6",
+    "type": "D92B10"
+  }
+}

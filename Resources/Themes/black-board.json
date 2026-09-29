@@ -1,0 +1,13 @@
+{
+  "id": "black-board",
+  "name": "Black board",
+  "colors": {
+    "foreground": "F8F8F8",
+    "background": "0C1021",
+    "keyword": "FBDE2D",
+    "comment": "AEAEAE",
+    "string": "61CE3C",
+    "number": "D8FA3C",
+    "type": "FF6400"
+  }
+}

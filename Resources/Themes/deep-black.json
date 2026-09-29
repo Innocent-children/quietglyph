@@ -1,0 +1,13 @@
+{
+  "id": "deep-black",
+  "name": "Deep Black",
+  "colors": {
+    "foreground": "FFFFFF",
+    "background": "000000",
+    "keyword": "FF6600",
+    "comment": "00FF00",
+    "string": "66FF00",
+    "number": "99CC99",
+    "type": "FFFFFF"
+  }
+}

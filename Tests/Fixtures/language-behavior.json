@@ -1,0 +1,331 @@
+[
+  {
+    "language": "asm",
+    "source": "main PROC\n mov eax, 1\nmain ENDP\n",
+    "role": "keyword",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "asp",
+    "source": "<div>\n<% If ready Then\nvalue = \"text\"\nEnd If %>\n</div>\n",
+    "role": "string",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "bash",
+    "source": "if true; then\ncat <<EOF\nvalue\nEOF\nfi\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "batch",
+    "source": "rem comment\nif exist file (\n echo value\n)\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 0
+  },
+  {
+    "language": "c",
+    "source": "int main() {\n /* comment */\n return 0;\n}\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "cmake",
+    "source": "function(test)\n#[=[ comment\nbody\n]=]\nendfunction()\n",
+    "role": "comment",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "coffeescript",
+    "source": "### comment\nbody\n###\nvalue = \"\"\"one\ntwo\"\"\"\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "cpp",
+    "source": "auto x = R\"tag(one\ntwo\n)tag\";\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "csharp",
+    "source": "var x = @\"one\n\"\"two\"\"\nthree\";\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "css",
+    "source": "a {\n color: #fff;\n /* comment */\n}\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "diff",
+    "source": "@@ -1 +1 @@\n-old\n+new\n",
+    "role": "added",
+    "multiline": false,
+    "minimumFolds": 0
+  },
+  {
+    "language": "flash",
+    "source": "function example() {\n // comment\n return 0;\n}\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "fortran",
+    "source": "program example\n! comment\nprint *, 'value'\nend program example\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "fortran77",
+    "source": "program example\n! comment\nprint *, 'value'\nend program example\n",
+    "role": "string",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "go",
+    "source": "func main() {\n s := `one\ntwo`\n}\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "html",
+    "source": "<div>\n<script>\nconst text = \"value\";\n</script>\n</div>\n",
+    "role": "string",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "idl",
+    "source": "interface Example {\n // comment\n void test();\n};\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "ini",
+    "source": "[section]\n; comment\nvalue=123\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 0
+  },
+  {
+    "language": "java",
+    "source": "class Example {\n String value = \"\"\"\ntext\n\"\"\";\n}\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "javascript",
+    "source": "function example() {\n const value = `one\ntwo`;\n}\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "json",
+    "source": "{\n \"value\": 12,\n \"name\": \"text\"\n}\n",
+    "role": "string",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "jsp",
+    "source": "<div>\n<% String value = \"text\";\n%>\n</div>\n",
+    "role": "string",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "lua",
+    "source": "function test()\nlocal value = [=[one\ntwo]=]\n--[==[ comment\nbody\n]==]\nend\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "makefile",
+    "source": "ifdef FEATURE\nvalue = 1\n# comment\nendif\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "markdown",
+    "source": "# Heading\n```swift\nvalue\n```\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "matlab",
+    "source": "function value = test()\n%{\ncomment\n%}\nvalue = 1;\nend\n",
+    "role": "comment",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "nsis",
+    "source": "Function test\n/* comment\nbody */\nFunctionEnd\n",
+    "role": "comment",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "objc",
+    "source": "@implementation Example\nvoid f() {\n // comment\n}\n@end\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "pascal",
+    "source": "begin\n(* comment\nbody *)\nvalue := 'it''s';\nend\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "perl",
+    "source": "sub example {\n=pod\ncomment\n=cut\nmy $x = 'text';\n}\n",
+    "role": "comment",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "php",
+    "source": "<div>\n<?php\n$value = \"text\";\n?>\n</div>\n",
+    "role": "string",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "props",
+    "source": "# comment\nkey=value\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 0
+  },
+  {
+    "language": "python",
+    "source": "def example():\n    value = \"\"\"one\ntwo\"\"\"\n    return value\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "r",
+    "source": "function() {\n value <- r\"(one\ntwo)\"\n}\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "rc",
+    "source": "DIALOG {\n // comment\n value 1\n}\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "ruby",
+    "source": "def example\n=begin\ncomment\n=end\nvalue = 'text'\nend\n",
+    "role": "comment",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "rust",
+    "source": "fn main() {\n let value = r##\"one\ntwo\"##;\n /* outer /* inner */ outer */\n}\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "spice",
+    "source": "* comment\nR1 1 0 100\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 0
+  },
+  {
+    "language": "sql",
+    "source": "BEGIN\nSELECT $$one\ntwo$$;\nEND\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "tcl",
+    "source": "proc test {} {\n # comment\n set value \"one\ntwo\"\n}\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "txt",
+    "source": "plain 🙂\ntext\n",
+    "role": "",
+    "multiline": false,
+    "minimumFolds": 0
+  },
+  {
+    "language": "typescript",
+    "source": "function example() {\n const value = `one\ntwo`;\n}\n",
+    "role": "string",
+    "multiline": true,
+    "minimumFolds": 1
+  },
+  {
+    "language": "vb",
+    "source": "Sub Example()\nvalue = \"text\"\n' comment\nEnd Sub\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "verilog",
+    "source": "module example;\nbegin\n/* comment */\nend\nendmodule\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "vhdl",
+    "source": "entity example is\n-- comment\nport (value : in bit);\nend entity;\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "xml",
+    "source": "<root>\n<!-- <fake> -->\n<value name=\"text\"/>\n</root>\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  },
+  {
+    "language": "yaml",
+    "source": "root:\n  value: 12\n  # comment\n",
+    "role": "comment",
+    "multiline": false,
+    "minimumFolds": 1
+  }
+]

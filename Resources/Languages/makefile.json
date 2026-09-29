@@ -1,0 +1,28 @@
+{
+  "id": "makefile",
+  "blocks": [],
+  "foldPairs": [
+    {
+      "open": "^\\s*(?:ifeq|ifneq|ifdef|ifndef)\\b",
+      "close": "^\\s*endif\\b"
+    },
+    {
+      "open": "^\\s*define\\b",
+      "close": "^\\s*endef\\b"
+    }
+  ],
+  "embedded": [],
+  "name": "Makefile",
+  "extensions": [
+    "makefile",
+    "mk"
+  ],
+  "keywords": [],
+  "lineComment": "#",
+  "blockCommentStart": "",
+  "blockCommentEnd": "",
+  "multilineStrings": [],
+  "caseSensitive": true,
+  "folding": "braces",
+  "rules": []
+}

@@ -1,0 +1,18 @@
+{
+  "id": "txt",
+  "blocks": [],
+  "foldPairs": [],
+  "embedded": [],
+  "name": "Plain Text",
+  "extensions": [
+    "txt"
+  ],
+  "keywords": [],
+  "lineComment": "#",
+  "blockCommentStart": "",
+  "blockCommentEnd": "",
+  "multilineStrings": [],
+  "caseSensitive": true,
+  "folding": "none",
+  "rules": []
+}

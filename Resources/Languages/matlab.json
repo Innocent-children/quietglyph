@@ -1,0 +1,51 @@
+{
+  "id": "matlab",
+  "blocks": [
+    {
+      "startPattern": "^\\s*%\\{",
+      "endTemplate": "%}",
+      "role": "comment",
+      "escaped": false,
+      "doubled": false,
+      "nested": false,
+      "endAtLineStart": true
+    }
+  ],
+  "foldPairs": [
+    {
+      "open": "^\\s*(?:function|if|for|parfor|while|switch|try|classdef|properties|methods|events)\\b",
+      "close": "^\\s*end\\b"
+    }
+  ],
+  "embedded": [],
+  "name": "Matlab",
+  "extensions": [
+    "m"
+  ],
+  "keywords": [
+    "break",
+    "case",
+    "catch",
+    "continue",
+    "else",
+    "elseif",
+    "end",
+    "for",
+    "function",
+    "global",
+    "if",
+    "otherwise",
+    "persistent",
+    "return",
+    "switch",
+    "try",
+    "while"
+  ],
+  "lineComment": "%",
+  "blockCommentStart": "",
+  "blockCommentEnd": "",
+  "multilineStrings": [],
+  "caseSensitive": true,
+  "folding": "braces",
+  "rules": []
+}

@@ -1,0 +1,102 @@
+{
+  "id": "ruby",
+  "blocks": [
+    {
+      "startPattern": "^=begin\\b",
+      "endTemplate": "=end",
+      "role": "comment",
+      "escaped": false,
+      "doubled": false,
+      "nested": false,
+      "endAtLineStart": true
+    },
+    {
+      "startPattern": "<<[-~]?\\s*['\"]?([A-Za-z_][A-Za-z0-9_]*)['\"]?",
+      "endTemplate": "$1",
+      "role": "string",
+      "escaped": false,
+      "doubled": false,
+      "nested": false,
+      "endAtLineStart": true
+    },
+    {
+      "startPattern": "\"",
+      "endTemplate": "\"",
+      "role": "string",
+      "escaped": true,
+      "doubled": false,
+      "nested": false,
+      "endAtLineStart": false
+    },
+    {
+      "startPattern": "'",
+      "endTemplate": "'",
+      "role": "string",
+      "escaped": true,
+      "doubled": false,
+      "nested": false,
+      "endAtLineStart": false
+    }
+  ],
+  "foldPairs": [
+    {
+      "open": "^\\s*(?:class|module|def|if|unless|case|begin|for|while|until)\\b|\\bdo\\s*(?:\\|.*\\|)?\\s*$",
+      "close": "\\bend\\b"
+    }
+  ],
+  "embedded": [],
+  "name": "RUBY",
+  "extensions": [
+    "rb"
+  ],
+  "keywords": [
+    "BEGIN",
+    "END",
+    "__FILE__",
+    "__LINE__",
+    "alias",
+    "and",
+    "begin",
+    "break",
+    "case",
+    "class",
+    "def",
+    "defined?",
+    "do",
+    "else",
+    "elsif",
+    "end",
+    "ensure",
+    "false",
+    "for",
+    "if",
+    "in",
+    "module",
+    "next",
+    "nil",
+    "not",
+    "or",
+    "redo",
+    "require",
+    "rescue",
+    "retry",
+    "return",
+    "self",
+    "super",
+    "then",
+    "true",
+    "undef",
+    "unless",
+    "until",
+    "when",
+    "while",
+    "yield"
+  ],
+  "lineComment": "#",
+  "blockCommentStart": "",
+  "blockCommentEnd": "",
+  "multilineStrings": [],
+  "caseSensitive": true,
+  "folding": "braces",
+  "rules": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "ruby-blue",
+  "name": "Ruby Blue",
+  "colors": {
+    "foreground": "FFFFFF",
+    "background": "112435",
+    "keyword": "FFFFFF",
+    "comment": "FFFFFF",
+    "string": "FFFFFF",
+    "number": "FFFFFF",
+    "type": "FFFFFF"
+  }
+}

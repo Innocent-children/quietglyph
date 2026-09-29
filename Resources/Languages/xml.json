@@ -1,0 +1,31 @@
+{
+  "id": "xml",
+  "blocks": [],
+  "foldPairs": [],
+  "embedded": [],
+  "name": "XML",
+  "extensions": [
+    "xml"
+  ],
+  "keywords": [],
+  "lineComment": "",
+  "blockCommentStart": "<!--",
+  "blockCommentEnd": "-->",
+  "multilineStrings": [],
+  "caseSensitive": true,
+  "folding": "markup",
+  "rules": [
+    {
+      "pattern": "</?[\\w:.-]+",
+      "role": "keyword"
+    },
+    {
+      "pattern": "[\\w:.-]+(?=\\s*=)",
+      "role": "type"
+    },
+    {
+      "pattern": "&[\\w#]+;",
+      "role": "number"
+    }
+  ]
+}

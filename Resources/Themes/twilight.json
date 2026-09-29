@@ -1,0 +1,13 @@
+{
+  "id": "twilight",
+  "name": "Twilight",
+  "colors": {
+    "foreground": "F8F8F8",
+    "background": "141414",
+    "keyword": "CDA869",
+    "comment": "5F5A60",
+    "string": "8F9D6A",
+    "number": "CF6A4C",
+    "type": "F8F8F8"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "bespin",
+  "name": "Bespin",
+  "colors": {
+    "foreground": "BDAE9D",
+    "background": "2A211C",
+    "keyword": "FFAA00",
+    "comment": "ffff00",
+    "string": "55E439",
+    "number": "FF3A83",
+    "type": "F8F8F8"
+  }
+}

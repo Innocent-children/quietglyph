@@ -1,0 +1,13 @@
+{
+  "id": "vibrant-ink",
+  "name": "Vibrant Ink",
+  "colors": {
+    "foreground": "FFFFFF",
+    "background": "000000",
+    "keyword": "FF6600",
+    "comment": "9933CC",
+    "string": "66FF00",
+    "number": "99CC99",
+    "type": "FFFFFF"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "danslerush-dark",
+  "name": "DansLeRuSH-Dark",
+  "colors": {
+    "foreground": "C7C7C7",
+    "background": "2E2E2E",
+    "keyword": "9865A8",
+    "comment": "666666",
+    "string": "F57F3D",
+    "number": "E6C74E",
+    "type": "C7C7C7"
+  }
+}

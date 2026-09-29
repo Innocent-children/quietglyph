@@ -1,0 +1,13 @@
+{
+  "id": "plastic-code-wrap",
+  "name": "Plastic Code Wrap",
+  "colors": {
+    "foreground": "F8F8F8",
+    "background": "0B161D",
+    "keyword": "FFAA00",
+    "comment": "ffff00",
+    "string": "55E439",
+    "number": "FF3A83",
+    "type": "F8F8F8"
+  }
+}

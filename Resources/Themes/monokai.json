@@ -1,0 +1,13 @@
+{
+  "id": "monokai",
+  "name": "Monokai",
+  "colors": {
+    "foreground": "F8F8F2",
+    "background": "272822",
+    "keyword": "F92672",
+    "comment": "75715E",
+    "string": "E6DB74",
+    "number": "AE81FF",
+    "type": "FF8080"
+  }
+}

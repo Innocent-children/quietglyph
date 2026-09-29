@@ -1,0 +1,13 @@
+{
+  "id": "mono-industrial",
+  "name": "Mono Industrial",
+  "colors": {
+    "foreground": "FFFFFF",
+    "background": "222C28",
+    "keyword": "A8B3AB",
+    "comment": "666C68",
+    "string": "FFFFFF",
+    "number": "E98800",
+    "type": "588E60"
+  }
+}

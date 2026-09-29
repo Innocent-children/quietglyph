@@ -1,0 +1,13 @@
+{
+  "id": "choco",
+  "name": "Choco",
+  "colors": {
+    "foreground": "C3BE98",
+    "background": "1A0F0B",
+    "keyword": "B3935C",
+    "comment": "679D47",
+    "string": "7CA563",
+    "number": "DA5659",
+    "type": "C3BE98"
+  }
+}

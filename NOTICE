@@ -1,0 +1,9 @@
+The language definitions in Resources/Languages and color themes in
+Resources/Themes were adapted from resources distributed with Notepad--:
+https://github.com/cxasm/notepad--
+
+The original copyright holders retain rights in material incorporated from
+those resources.
+
+The native resource conversion and standalone project packaging took place
+in September 2026. See LICENSE for this repository's GNU GPL v3 terms.

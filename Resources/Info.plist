@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleDevelopmentRegion</key><string>en</string>
+<key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
+<key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+<key>CFBundleName</key><string>QuietGlyph</string>
+<key>CFBundleDisplayName</key><string>QuietGlyph</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>CFBundleShortVersionString</key><string>1.0</string>
+<key>CFBundleVersion</key><string>1</string>
+<key>LSMinimumSystemVersion</key><string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+<key>NSHighResolutionCapable</key><true/>
+<key>NSPrincipalClass</key><string>$(PRODUCT_MODULE_NAME).NativeApplication</string>
+<key>NSSupportsAutomaticTermination</key><false/>
+<key>NSHumanReadableCopyright</key><string>Notepad-- and QuietGlyph contributors. GNU GPL v3.</string>
+<key>CFBundleDocumentTypes</key><array>
+<dict><key>CFBundleTypeName</key><string>Text Document</string><key>CFBundleTypeRole</key><string>Editor</string><key>LSHandlerRank</key><string>Alternate</string><key>LSItemContentTypes</key><array><string>public.plain-text</string><string>public.source-code</string><string>public.text</string><string>public.data</string></array><key>NSDocumentClass</key><string>$(PRODUCT_MODULE_NAME).NativeTextDocument</string></dict>
+</array>
+</dict></plist>

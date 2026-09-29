@@ -1,0 +1,50 @@
+{
+  "id": "markdown",
+  "blocks": [
+    {
+      "startPattern": "^\\s{0,3}(```+)",
+      "endTemplate": "$1",
+      "role": "string",
+      "escaped": false,
+      "doubled": false,
+      "nested": false,
+      "endAtLineStart": true
+    },
+    {
+      "startPattern": "^\\s{0,3}(~~~+)",
+      "endTemplate": "$1",
+      "role": "string",
+      "escaped": false,
+      "doubled": false,
+      "nested": false,
+      "endAtLineStart": true
+    }
+  ],
+  "foldPairs": [],
+  "embedded": [],
+  "name": "Markdown",
+  "extensions": [
+    "md"
+  ],
+  "keywords": [],
+  "lineComment": "",
+  "blockCommentStart": "",
+  "blockCommentEnd": "",
+  "multilineStrings": [],
+  "caseSensitive": true,
+  "folding": "none",
+  "rules": [
+    {
+      "pattern": "^\\s{0,3}#{1,6}\\s.*",
+      "role": "heading"
+    },
+    {
+      "pattern": "!?\\[[^\\]]*\\]\\([^)]*\\)",
+      "role": "type"
+    },
+    {
+      "pattern": "`[^`]+`",
+      "role": "string"
+    }
+  ]
+}

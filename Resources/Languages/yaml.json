@@ -1,0 +1,29 @@
+{
+  "id": "yaml",
+  "blocks": [],
+  "foldPairs": [],
+  "embedded": [],
+  "name": "YAML",
+  "extensions": [
+    "yaml",
+    "yml"
+  ],
+  "keywords": [
+    "false",
+    "no",
+    "true",
+    "yes"
+  ],
+  "lineComment": "#",
+  "blockCommentStart": "",
+  "blockCommentEnd": "",
+  "multilineStrings": [],
+  "caseSensitive": true,
+  "folding": "indent",
+  "rules": [
+    {
+      "pattern": "^[\\w .-]+(?=\\s*[=:])",
+      "role": "keyword"
+    }
+  ]
+}

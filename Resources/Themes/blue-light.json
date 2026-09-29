@@ -1,0 +1,8 @@
+{
+  "id": "blue-light",
+  "name": "Blue light",
+  "colors": {
+    "foreground": "DADADA",
+    "background": "232323"
+  }
+}

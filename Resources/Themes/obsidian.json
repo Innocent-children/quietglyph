@@ -1,0 +1,13 @@
+{
+  "id": "obsidian",
+  "name": "Obsidian",
+  "colors": {
+    "foreground": "E0E2E4",
+    "background": "293134",
+    "keyword": "93C763",
+    "comment": "66747B",
+    "string": "EC7600",
+    "number": "FFCD22",
+    "type": "A082BD"
+  }
+}
