@@ -75,14 +75,14 @@ final class SettingsStore: ObservableObject {
     nonisolated(unsafe) private static var fileLimitBytes: UInt64 = 100 * 1024 * 1024
     nonisolated static var editableLimit: UInt64 { fileLimitLock.withLock { fileLimitBytes } }
     static let shared = SettingsStore()
-    static let changed = Notification.Name("QuietGlyphSettingsChanged")
+    static let changed = Notification.Name("InklineSettingsChanged")
     @Published var interfaceLanguage = InterfaceLanguage.saved(in: L10n.defaults) {
         didSet { L10n.defaults.set(interfaceLanguage.rawValue, forKey: InterfaceLanguage.defaultsKey) }
     }
     @Published var values: Preferences {
         didSet {
             Self.fileLimitLock.withLock { Self.fileLimitBytes = UInt64(min(600, max(50, values.largeFileThresholdMB))) * 1024 * 1024 }
-            if !QuietGlyphApplication.isTesting, let data = try? JSONEncoder().encode(values) { UserDefaults.standard.set(data, forKey: "nativePreferences") }
+            if !InklineApplication.isTesting, let data = try? JSONEncoder().encode(values) { UserDefaults.standard.set(data, forKey: "nativePreferences") }
             NotificationCenter.default.post(name: Self.changed, object: self)
         }
     }
@@ -114,7 +114,7 @@ final class SettingsStore: ObservableObject {
         return attributes
     }
     init() {
-        if !QuietGlyphApplication.isTesting, let data = UserDefaults.standard.data(forKey: "nativePreferences"),
+        if !InklineApplication.isTesting, let data = UserDefaults.standard.data(forKey: "nativePreferences"),
            let saved = try? JSONDecoder().decode(Preferences.self, from: data) { values = saved }
         else { values = Preferences() }
         var result = [EditorTheme(id: "system", name: "System", colors: [:])]

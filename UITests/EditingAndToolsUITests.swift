@@ -3,9 +3,9 @@ import XCTest
 final class EditingAndToolsUITests: XCTestCase {
     func testMultilineTabSearchReplacementAndToolPanels() {
         let app = XCUIApplication()
-        let suite = "quietglyph.editing-tools.ui.\(UUID().uuidString)"
+        let suite = "inkline.editing-tools.ui.\(UUID().uuidString)"
         app.launchArguments = ["--ui-testing"]
-        app.launchEnvironment["QUIETGLYPH_TEST_DEFAULTS"] = suite
+        app.launchEnvironment["INKLINE_TEST_DEFAULTS"] = suite
         app.launch()
         defer { app.terminate(); UserDefaults(suiteName: suite)?.removePersistentDomain(forName: suite) }
         let editor = app.textViews["editor"]

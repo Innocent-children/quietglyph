@@ -1,5 +1,5 @@
 import XCTest
-@testable import QuietGlyph
+@testable import Inkline
 
 final class HexViewTests: XCTestCase {
     func testOffsetsBytesAndASCIIRendering() {

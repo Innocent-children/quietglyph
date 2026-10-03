@@ -1,6 +1,6 @@
 import AppKit
 import XCTest
-@testable import QuietGlyph
+@testable import Inkline
 
 final class DocumentRenameTests: XCTestCase {
     @MainActor private func rename(_ document: TextDocument, to name: String) async throws {

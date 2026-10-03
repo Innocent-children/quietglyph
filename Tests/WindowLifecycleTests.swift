@@ -1,6 +1,6 @@
 import AppKit
 import XCTest
-@testable import QuietGlyph
+@testable import Inkline
 
 final class WindowLifecycleTests: XCTestCase {
     @MainActor func testCenteredTitleKeepsRenamePopoverCloseAndFollowsNameChanges() async throws {

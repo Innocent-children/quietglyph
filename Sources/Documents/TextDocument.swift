@@ -14,7 +14,9 @@ final class TextDocument: NSDocument {
     weak var editor: EditorController?
     private var recoveryTask: Task<Void, Never>?
     private var hasProvisionalEdit = false
-    private var watchSource: DispatchSourceFileSystemObject?
+    private var fileMonitor: DocumentFileMonitor?
+    private(set) var externalFileState: ExternalFileState = .unchanged
+    enum ExternalFileState { case unchanged, changed, unavailable }
     var restoredTitle: String?
     override var displayName: String! {
         get { fileURL == nil ? restoredTitle ?? super.displayName : super.displayName }
@@ -24,10 +26,12 @@ final class TextDocument: NSDocument {
     override class var autosavesDrafts: Bool { false }
     override func updateChangeCount(_ change: NSDocument.ChangeType) {
         super.updateChangeCount(change)
+        refreshExternalChangeNotice()
         NotificationCenter.default.post(name: Self.didChangeState, object: self)
     }
     override func updateChangeCount(withToken changeCountToken: Any, for saveOperation: NSDocument.SaveOperationType) {
         super.updateChangeCount(withToken: changeCountToken, for: saveOperation)
+        refreshExternalChangeNotice()
         NotificationCenter.default.post(name: Self.didChangeState, object: self)
     }
     nonisolated override class func canConcurrentlyReadDocuments(ofType typeName: String) -> Bool { true }
@@ -61,6 +65,7 @@ final class TextDocument: NSDocument {
                 loadedText = decoded.text; loadedMetadata = decoded.metadata
             } else { loadedMode = .hex }
         }
+        guard try DocumentIO.stamp(url) == loadedStamp else { throw EditorError.externalChange }
         initialText = loadedText
         metadata = loadedMetadata
         mode = loadedMode
@@ -72,6 +77,7 @@ final class TextDocument: NSDocument {
         let previousLanguage = metadata.languageID
         try super.revert(toContentsOf: url, ofType: typeName)
         metadata.languageID = previousLanguage == "txt" ? LanguageRegistry.shared.detect(url).id : previousLanguage
+        revision += 1
         recoveryTask?.cancel()
         RecoveryStore.shared.remove(recoveryID)
         for controller in windowControllers.compactMap({ $0 as? DocumentWindowController }) { controller.reloadFromDocument() }
@@ -79,6 +85,10 @@ final class TextDocument: NSDocument {
     }
 
     override func makeWindowControllers() {
+        if diskStamp == nil, let fileURL, mode != .text {
+            diskStamp = try? DocumentIO.stamp(fileURL)
+            sourceURL = fileURL
+        }
         if mode == .text, metadata.languageID == "txt", fileURL != nil {
             metadata.languageID = LanguageRegistry.shared.detect(fileURL, prefix: String(initialText.prefix(100))).id
         }
@@ -97,8 +107,14 @@ final class TextDocument: NSDocument {
 
     nonisolated override func writeSafely(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType) throws {
         guard mode == .text else { throw EditorError.readOnly }
-        if saveOperation == .saveOperation, let original = sourceURL, original.standardizedFileURL == url.standardizedFileURL,
-           let expected = diskStamp, (try? DocumentIO.stamp(original)) != expected { throw EditorError.externalChange }
+        let destination = url.standardizedFileURL.resolvingSymlinksInPath()
+        let replacesOpenFile = saveOperation == .saveOperation || [sourceURL, fileURL].compactMap { $0 }.contains {
+            $0.standardizedFileURL.resolvingSymlinksInPath() == destination
+        }
+        if replacesOpenFile, let expected = diskStamp, (try? DocumentIO.stamp(url)) != expected {
+            Task { @MainActor [weak self] in self?.checkForExternalChanges() }
+            throw EditorError.externalChange
+        }
         try super.writeSafely(to: url, ofType: typeName, for: saveOperation)
         if saveOperation == .saveOperation || saveOperation == .saveAsOperation {
             sourceURL = url
@@ -234,37 +250,64 @@ final class TextDocument: NSDocument {
     func reload(encoding: TextEncoding) throws {
         guard let url = fileURL, let editor else { return }
         guard !isDocumentEdited else { throw EditorError.externalChange }
+        let loadedStamp = try DocumentIO.stamp(url)
         let decoded = try DocumentIO.read(url, preferred: encoding)
+        guard try DocumentIO.stamp(url) == loadedStamp else { throw EditorError.externalChange }
         let languageID = metadata.languageID
         try editor.apply([TextEdit(range: NSRange(location: 0, length: editor.source.length), replacement: decoded.text)], name: "Reload Encoding")
         metadata = decoded.metadata
         metadata.languageID = languageID
-        diskStamp = try DocumentIO.stamp(url)
+        diskStamp = loadedStamp
+        startWatching()
         editor.onStatusChange?()
     }
     func startWatching() {
-        watchSource?.cancel()
-        guard let url = fileURL else { return }
-        let descriptor = open(url.path, O_EVTONLY)
-        guard descriptor >= 0 else { return }
-        let source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: descriptor, eventMask: [.write, .delete, .rename], queue: .main)
-        source.setCancelHandler { Darwin.close(descriptor) }
-        source.setEventHandler { [weak self] in
-            MainActor.assumeIsolated {
-                guard let self, self.fileURL == url, self.windowControllers.first?.window?.isVisible == true else { return }
-                let current = try? DocumentIO.stamp(url)
-                guard current != self.diskStamp else { return }
-                self.windowControllers.first?.window?.subtitle = L10n.text("Changed on disk — Reload or Save As")
-            }
+        fileMonitor?.stop()
+        fileMonitor = nil
+        if let url = fileURL {
+            fileMonitor = DocumentFileMonitor(url: url) { [weak self] in self?.checkForExternalChanges() }
         }
-        source.resume()
-        watchSource = source
+        checkForExternalChanges()
     }
+
+    func checkForExternalChanges() {
+        guard let url = fileURL, let diskStamp else {
+            externalFileState = .unchanged
+            refreshExternalChangeNotice()
+            return
+        }
+        if let current = try? DocumentIO.stamp(url) {
+            externalFileState = current == diskStamp ? .unchanged : .changed
+        } else { externalFileState = .unavailable }
+        refreshExternalChangeNotice()
+    }
+
+    private func refreshExternalChangeNotice() {
+        for controller in windowControllers.compactMap({ $0 as? DocumentWindowController }) {
+            controller.updateExternalChangeNotice()
+        }
+    }
+
+    nonisolated override func presentedItemDidChange() {
+        // Keep the in-memory version until the user explicitly chooses to reload.
+        Task { @MainActor [weak self] in self?.checkForExternalChanges() }
+    }
+
+    nonisolated override func presentedItemDidMove(to newURL: URL) {
+        super.presentedItemDidMove(to: newURL)
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.sourceURL = self.fileURL
+            self.startWatching()
+        }
+    }
+
     override func close() {
         RecoveryStore.shared.remove(recoveryID)
-        watchSource?.cancel()
+        fileMonitor?.stop()
+        fileMonitor = nil
         recoveryTask?.cancel()
         super.close()
     }
-    deinit { watchSource?.cancel(); recoveryTask?.cancel() }
+    deinit { recoveryTask?.cancel() }
 }

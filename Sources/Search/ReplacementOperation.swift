@@ -36,7 +36,7 @@ enum ReplacementOperation {
             if Task.isCancelled { report.cancelled = true; break }
             do {
                 guard !openURLs.contains(url.standardizedFileURL) else {
-                    throw NSError(domain: "QuietGlyph", code: 1, userInfo: [NSLocalizedDescriptionKey: L10n.text("The file is open. Replace in its editor to preserve unsaved changes.")])
+                    throw NSError(domain: "Inkline", code: 1, userInfo: [NSLocalizedDescriptionKey: L10n.text("The file is open. Replace in its editor to preserve unsaved changes.")])
                 }
                 guard let stamp = grouped[url]?.first?.stamp, try DocumentIO.stamp(url) == stamp else { throw EditorError.externalChange }
                 let prepared = try prepare(url, expected: stamp) { text in

@@ -19,6 +19,7 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
     var preview: MarkdownPreviewController?
     var navigation: NSSegmentedControl?
     private var windowReady = false
+    private var externalChangeBanner: ExternalChangeBanner?
 
     init(document: TextDocument) {
         textDocument = document
@@ -29,7 +30,7 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
         window.titlebarAppearsTransparent = true
         // SessionStore and RecoveryStore own document restoration; avoid a second AppKit restoration pass.
         window.isRestorable = false
-        window.tabbingIdentifier = "QuietGlyphDocuments"
+        window.tabbingIdentifier = "InklineDocuments"
         window.tabbingMode = .preferred
         super.init(window: window)
         window.delegate = self
@@ -132,6 +133,11 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
         let center = NSViewController()
         let stack = NSStackView()
         stack.orientation = .vertical; stack.alignment = .leading; stack.spacing = 0; stack.detachesHiddenViews = true
+        let banner = ExternalChangeBanner(target: self, reload: #selector(reloadChangedFile(_:)), saveAs: #selector(saveChangedFileAs(_:)))
+        externalChangeBanner = banner
+        stack.addArrangedSubview(banner)
+        banner.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        updateExternalChangeNotice()
         if document.mode == .text {
             let editor = EditorController(document: document)
             editorController = editor; document.editor = editor
@@ -185,6 +191,44 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
         window?.subtitle = ""
     }
 
+    func updateExternalChangeNotice() {
+        externalChangeBanner?.update(state: textDocument.externalFileState,
+                                     edited: textDocument.isDocumentEdited, editable: textDocument.mode == .text)
+    }
+
+    @objc private func saveChangedFileAs(_ sender: Any?) {
+        textDocument.editor?.textView.unmarkText()
+        textDocument.saveAs(sender)
+    }
+
+    @objc private func reloadChangedFile(_ sender: Any?) {
+        guard let window, window.attachedSheet == nil else { return }
+        textDocument.editor?.textView.unmarkText()
+        if textDocument.isDocumentEdited {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = L10n.text("Reload and discard your unsaved changes?")
+            alert.informativeText = L10n.text("Reload replaces your edits with the version on disk. Use Save As to keep your edits in another file.")
+            alert.addButton(withTitle: L10n.text("Keep Editing")).setAccessibilityIdentifier("keepExternalEdits")
+            alert.addButton(withTitle: L10n.text("Reload")).setAccessibilityIdentifier("confirmExternalReload")
+            alert.addButton(withTitle: L10n.text("Save As…")).setAccessibilityIdentifier("preserveExternalEditsAs")
+            alert.beginSheetModal(for: window) { [weak self] response in
+                guard let self else { return }
+                switch response {
+                case .alertSecondButtonReturn: self.reloadChangedFile()
+                case .alertThirdButtonReturn: self.saveChangedFileAs(nil)
+                default: break
+                }
+            }
+        } else { reloadChangedFile() }
+    }
+
+    private func reloadChangedFile() {
+        guard let url = textDocument.fileURL else { return }
+        do { try textDocument.revert(toContentsOf: url, ofType: textDocument.fileType ?? "public.plain-text") }
+        catch { textDocument.checkForExternalChanges(); textDocument.presentError(error) }
+    }
+
     func updateStatus() {
         if let editor = editorController {
             let text = editor.source
@@ -227,6 +271,7 @@ final class DocumentWindowController: NSWindowController, NSToolbarDelegate, NSW
         catch { searchModel.message = error.localizedDescription }
     }
     func windowDidBecomeKey(_ notification: Notification) {
+        textDocument.startWatching()
         updateStatus()
         attachDocumentRenameButton()
     }

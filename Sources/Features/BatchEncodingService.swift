@@ -19,9 +19,9 @@ enum BatchEncodingService {
                 let flags = try url.resourceValues(forKeys: [.isRegularFileKey, .isDirectoryKey, .isSymbolicLinkKey])
                 if flags.isDirectory == true && !recursive { walker?.skipDescendants() }
                 guard flags.isRegularFile == true, flags.isSymbolicLink != true, query.includes(url.lastPathComponent) else { continue }
-                guard !openURLs.contains(url.standardizedFileURL.resolvingSymlinksInPath()) else { throw NSError(domain: "QuietGlyph", code: 1, userInfo: [NSLocalizedDescriptionKey: L10n.text("The file is open. Close it before batch conversion.")]) }
+                guard !openURLs.contains(url.standardizedFileURL.resolvingSymlinksInPath()) else { throw NSError(domain: "Inkline", code: 1, userInfo: [NSLocalizedDescriptionKey: L10n.text("The file is open. Close it before batch conversion.")]) }
                 let stamp = try DocumentIO.stamp(url)
-                guard stamp.size <= DocumentIO.editableLimit else { throw NSError(domain: "QuietGlyph", code: 2, userInfo: [NSLocalizedDescriptionKey: L10n.text("File exceeds the conversion size limit.")]) }
+                guard stamp.size <= DocumentIO.editableLimit else { throw NSError(domain: "Inkline", code: 2, userInfo: [NSLocalizedDescriptionKey: L10n.text("File exceeds the conversion size limit.")]) }
                 let decoded = try DocumentIO.read(url)
                 guard !decoded.text.contains("\0") else { throw EditorError.decoding }
                 guard try DocumentIO.stamp(url) == stamp else { throw EditorError.externalChange }

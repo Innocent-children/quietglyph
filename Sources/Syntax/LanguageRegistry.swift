@@ -5,7 +5,7 @@ final class LanguageRegistry: ObservableObject {
     static let shared = LanguageRegistry()
     @Published private(set) var languages: [LanguageDefinition] = []
     let userDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        .appendingPathComponent(Bundle.main.bundleIdentifier ?? "com.innocentchildren.quietglyph").appendingPathComponent("Languages", isDirectory: true)
+        .appendingPathComponent(Bundle.main.bundleIdentifier ?? "com.innocentchildren.inkline").appendingPathComponent("Languages", isDirectory: true)
 
     init() { reload() }
     func reload() {

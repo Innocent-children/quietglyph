@@ -1,6 +1,6 @@
 import XCTest
 import CryptoKit
-@testable import QuietGlyph
+@testable import Inkline
 
 final class ChecksumTests: XCTestCase {
     func testKnownVectorsAndRateBoundary() {

@@ -1,6 +1,6 @@
 import XCTest
 import AppKit
-@testable import QuietGlyph
+@testable import Inkline
 
 final class BatchFileToolsTests: XCTestCase {
     @MainActor func testRenamePreviewConflictAndOpenDocumentMove() async throws {

@@ -40,15 +40,15 @@ final class MenuController: NSObject, NSMenuItemValidation, NSMenuDelegate {
             configureShortcut(item, id: "system:" + action)
             menu.addItem(item)
         }
-        let app = menu("QuietGlyph")
-        standard(app, "About QuietGlyph", "orderFrontStandardAboutPanel:")
+        let app = menu("Inkline")
+        standard(app, "About Inkline", "orderFrontStandardAboutPanel:")
         app.addItem(.separator())
         app.addItem(AppKitControlFactory.menuItem(title: "Settings…", selector: #selector(settings(_:)), key: ",", target: self))
         let services = NSMenu(title: L10n.text("Services"))
         let serviceItem = NSMenuItem(title: L10n.text("Services"), action: nil, keyEquivalent: ""); serviceItem.submenu = services; app.addItem(serviceItem); NSApp.servicesMenu = services
         app.addItem(.separator())
-        standard(app, "Hide QuietGlyph", "hide:", "h"); standard(app, "Show All", "unhideAllApplications:")
-        app.addItem(.separator()); standard(app, "Quit QuietGlyph", "terminate:", "q")
+        standard(app, "Hide Inkline", "hide:", "h"); standard(app, "Show All", "unhideAllApplications:")
+        app.addItem(.separator()); standard(app, "Quit Inkline", "terminate:", "q")
         let file = menu("File")
         standard(file, "New", "newDocument:", "n"); standard(file, "Open…", "openDocument:", "o")
         let recent = submenu(file, "Open Recent"); recent.identifier = NSUserInterfaceItemIdentifier("recent"); recent.delegate = self
@@ -265,7 +265,7 @@ final class MenuController: NSObject, NSMenuItemValidation, NSMenuDelegate {
             showTool("Text and File Checksums", content: NSHostingController(rootView: ChecksumPanel(model: ChecksumModel(text: text))))
         case "batch-encoding": batchEncoding()
         case "settings-languages": delegate?.showSettings()
-        case "help": showText("QuietGlyph", "Command-F finds text; Command-D adds the next occurrence. Command-Option-click adds a caret. Use Column Selection for rectangular editing.\n\nRegex uses Apple's ICU syntax and $1 replacement groups. Large files and hexadecimal views are read-only. File recovery copies never automatically overwrite the original.\n\nmacOS 27 uses system text-selection gestures and navigation tabs. macOS 15 and 26 use fewer custom animations.")
+        case "help": showText("Inkline", "Command-F finds text; Command-D adds the next occurrence. Command-Option-click adds a caret. Use Column Selection for rectangular editing.\n\nRegex uses Apple's ICU syntax and $1 replacement groups. Large files and hexadecimal views are read-only. File recovery copies never automatically overwrite the original.\n\nmacOS 27 uses system text-selection gestures and navigation tabs. macOS 15 and 26 use fewer custom animations.")
         default: break
         }
     }

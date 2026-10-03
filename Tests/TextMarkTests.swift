@@ -1,6 +1,6 @@
 import XCTest
 import AppKit
-@testable import QuietGlyph
+@testable import Inkline
 
 final class TextMarkTests: XCTestCase {
     @MainActor func testMarksAndBookmarksRestoreAcrossDeletionUndoRedo() throws {

@@ -1,5 +1,5 @@
 import XCTest
-@testable import QuietGlyph
+@testable import Inkline
 
 final class ReplacementTests: XCTestCase {
     func testOpenFileIsSkippedWhileClosedFilePreservesEncoding() async throws {

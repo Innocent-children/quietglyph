@@ -13,8 +13,8 @@ final class RecoveryStore {
     static let shared = RecoveryStore()
     let directory: URL
     init(directory: URL? = nil) {
-        let base = QuietGlyphApplication.isTesting ? FileManager.default.temporaryDirectory.appendingPathComponent("QuietGlyphTests-\(ProcessInfo.processInfo.processIdentifier)") :
-            FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent(Bundle.main.bundleIdentifier ?? "com.innocentchildren.quietglyph")
+        let base = InklineApplication.isTesting ? FileManager.default.temporaryDirectory.appendingPathComponent("InklineTests-\(ProcessInfo.processInfo.processIdentifier)") :
+            FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent(Bundle.main.bundleIdentifier ?? "com.innocentchildren.inkline")
         self.directory = directory ?? base.appendingPathComponent("Recovery", isDirectory: true)
     }
     func save(_ record: RecoveryRecord) throws {

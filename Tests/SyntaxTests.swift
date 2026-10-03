@@ -1,5 +1,5 @@
 import XCTest
-@testable import QuietGlyph
+@testable import Inkline
 
 final class SyntaxTests: XCTestCase {
     @MainActor func testActualLexerLanguageFixtures() throws {

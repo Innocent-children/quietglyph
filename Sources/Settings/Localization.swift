@@ -15,8 +15,8 @@ enum InterfaceLanguage: String, CaseIterable, Identifiable {
 
 enum L10n {
     static let defaults: UserDefaults = {
-        if QuietGlyphApplication.isTesting {
-            let suite = ProcessInfo.processInfo.environment["QUIETGLYPH_TEST_DEFAULTS"] ?? "com.innocentchildren.quietglyph.testing"
+        if InklineApplication.isTesting {
+            let suite = ProcessInfo.processInfo.environment["INKLINE_TEST_DEFAULTS"] ?? "com.innocentchildren.inkline.testing"
             return UserDefaults(suiteName: suite)!
         }
         return .standard

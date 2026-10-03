@@ -8,5 +8,5 @@ if [ "$native_xcode_major" -lt 27 ]; then
   echo "Xcode 27 or later is required for the macOS 27 APIs." >&2
   exit 1
 fi
-xcodebuild -project "$native_root/QuietGlyph.xcodeproj" -scheme QuietGlyph \
+xcodebuild -project "$native_root/Inkline.xcodeproj" -scheme Inkline \
   -configuration "$native_configuration" -derivedDataPath "$native_root/DerivedData" build

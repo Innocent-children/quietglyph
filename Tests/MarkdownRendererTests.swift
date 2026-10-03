@@ -1,6 +1,6 @@
 import XCTest
 import AppKit
-@testable import QuietGlyph
+@testable import Inkline
 
 final class MarkdownRendererTests: XCTestCase {
     @MainActor func testMarkdownBlocksTablesImageAndUnicode() throws {

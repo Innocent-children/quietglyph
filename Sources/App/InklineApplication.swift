@@ -1,7 +1,7 @@
 import AppKit
 
 @MainActor
-final class QuietGlyphNSApplication: NSApplication {
+final class InklineNSApplication: NSApplication {
     override func terminate(_ sender: Any?) {
         (delegate as? AppDelegate)?.prepareTermination()
         super.terminate(sender)
@@ -10,7 +10,7 @@ final class QuietGlyphNSApplication: NSApplication {
 }
 
 @main
-enum QuietGlyphApplication {
+enum InklineApplication {
     static let isTesting = ProcessInfo.processInfo.arguments.contains("--ui-testing") ||
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil ||
         ProcessInfo.processInfo.environment["XCTestBundlePath"] != nil
@@ -21,7 +21,7 @@ enum QuietGlyphApplication {
             arguments["ApplePersistenceIgnoreState"] = true
             UserDefaults.standard.setVolatileDomain(arguments, forName: UserDefaults.argumentDomain)
         }
-        let application = QuietGlyphNSApplication.shared
+        let application = InklineNSApplication.shared
         let documents = DocumentController()
         let delegate = AppDelegate(documents: documents)
         application.delegate = delegate

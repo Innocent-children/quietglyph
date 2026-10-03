@@ -2,11 +2,11 @@ import XCTest
 
 final class LocalizationUITests: XCTestCase {
     func testLanguageSelectionSurvivesRelaunchInBothDirections() {
-        let suite = "quietglyph.localization.ui.\(UUID().uuidString)"
+        let suite = "inkline.localization.ui.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suite)!
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing"]
-        app.launchEnvironment["QUIETGLYPH_TEST_DEFAULTS"] = suite
+        app.launchEnvironment["INKLINE_TEST_DEFAULTS"] = suite
         defer { app.terminate(); defaults.removePersistentDomain(forName: suite) }
 
         app.launch()

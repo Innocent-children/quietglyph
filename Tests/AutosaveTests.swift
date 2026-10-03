@@ -1,6 +1,6 @@
 import XCTest
 import AppKit
-@testable import QuietGlyph
+@testable import Inkline
 
 final class AutosaveTests: XCTestCase {
     @MainActor func testOptionalThreeMinuteSaveAndCompositionSkip() async throws {

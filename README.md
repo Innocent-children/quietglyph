@@ -1,8 +1,8 @@
-# QuietGlyph
+# Inkline
 
-**QuietGlyph 立志成为 macOS 上最优雅的文本编辑器。**
+**Inkline 立志成为 macOS 上最优雅的文本编辑器。**
 
-从打开一份笔记，到整理上千行代码，编辑器都应该让人专注于文字本身。QuietGlyph 使用 AppKit、SwiftUI 和 NSTextView 构建，遵循 macOS 的窗口、菜单与键盘操作习惯，同时提供处理复杂文本所需的工具。
+从打开一份笔记，到整理上千行代码，编辑器都应该让人专注于文字本身。Inkline 使用 AppKit、SwiftUI 和 NSTextView 构建，遵循 macOS 的窗口、菜单与键盘操作习惯，同时提供处理复杂文本所需的工具。
 
 ## 功能
 
@@ -14,7 +14,7 @@
 
 ## 开发
 
-使用 Xcode 27 或更新版本打开 `QuietGlyph.xcodeproj`。应用最低支持 macOS 15，同时构建 Apple 芯片与 Intel 版本。
+使用 Xcode 27 或更新版本打开 `Inkline.xcodeproj`。应用最低支持 macOS 15，同时构建 Apple 芯片与 Intel 版本。
 
 ```sh
 bash Scripts/build.sh Debug

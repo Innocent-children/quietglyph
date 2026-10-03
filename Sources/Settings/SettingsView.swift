@@ -9,7 +9,7 @@ struct SettingsView: View {
                     Picker(L10n.text("Interface language"), selection: $settings.interfaceLanguage) {
                         ForEach(InterfaceLanguage.allCases) { Text(verbatim: $0.title).tag($0) }
                     }.accessibilityIdentifier("interfaceLanguage")
-                    Text(L10n.text("The selected language takes effect the next time you open QuietGlyph."))
+                    Text(L10n.text("The selected language takes effect the next time you open Inkline."))
                         .font(.caption).foregroundStyle(.secondary)
                 }
                 Section(L10n.text("Editor")) {

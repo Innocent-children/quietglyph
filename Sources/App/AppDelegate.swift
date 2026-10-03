@@ -20,7 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         _ = AppearancePolicy.shared
         NSApp.activate(ignoringOtherApps: true)
-        guard !QuietGlyphApplication.isTesting else { documents.newDocument(nil); return }
+        guard !InklineApplication.isTesting else { documents.newDocument(nil); return }
         autosave.configure(enabled: SettingsStore.shared.values.timedSave)
         settingsObserver = NotificationCenter.default.addObserver(forName: SettingsStore.changed, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.autosave.configure(enabled: SettingsStore.shared.values.timedSave) }

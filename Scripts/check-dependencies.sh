@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
-if [ "$#" -ne 1 ]; then echo "Usage: $0 /path/to/QuietGlyph.app" >&2; exit 2; fi
+if [ "$#" -ne 1 ]; then echo "Usage: $0 /path/to/Inkline.app" >&2; exit 2; fi
 native_app="$1"
-native_binary="$native_app/Contents/MacOS/QuietGlyph"
+native_binary="$native_app/Contents/MacOS/Inkline"
 if [ ! -f "$native_binary" ]; then echo "Application executable is missing." >&2; exit 1; fi
 native_arches="$(lipo -archs "$native_binary")"
 if [[ " $native_arches " != *" arm64 "* ]] || [[ " $native_arches " != *" x86_64 "* ]]; then

@@ -1,5 +1,5 @@
 import XCTest
-@testable import QuietGlyph
+@testable import Inkline
 
 final class LocalizationTests: XCTestCase {
     @MainActor func testFileNamesAreNotTranslatedAsCommands() {
@@ -10,7 +10,7 @@ final class LocalizationTests: XCTestCase {
     }
 
     func testLanguageDefaultsToChineseAndPersistsSelection() {
-        let suite = "quietglyph.localization.unit.\(UUID().uuidString)"
+        let suite = "inkline.localization.unit.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suite)!
         defer { defaults.removePersistentDomain(forName: suite) }
         XCTAssertEqual(InterfaceLanguage.saved(in: defaults), .simplifiedChinese)

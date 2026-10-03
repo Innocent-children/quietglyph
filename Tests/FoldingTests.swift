@@ -1,6 +1,6 @@
 import XCTest
 import AppKit
-@testable import QuietGlyph
+@testable import Inkline
 
 final class FoldingTests: XCTestCase {
     func testMarkupFoldRangesKeepTagsInTheSource() {
